@@ -34,25 +34,87 @@
       </div>
     </header>
 
-    <main class="relative max-w-6xl mx-auto px-4 py-8 md:py-12">
+    <main class="relative max-w-7xl mx-auto px-4 py-6 md:py-12">
       <!-- Hero Section -->
-      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-16">
-        <section class="space-y-6 relative z-10">
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-            Decentralized Gaming Tournament Platform
-          </h1>
-          <p class="text-lg text-slate-300 leading-relaxed">
-            Automate cross-chain gaming tournaments with player registration, match scheduling, and prize distribution using Kwala's event-driven workflows. Built for the BuildWithKwala hackathon.
+      <div class="grid lg:grid-cols-2 gap-6 lg:gap-12 items-center mb-12 md:mb-16">
+        <section class="space-y-4 md:space-y-6 relative z-10 order-2 lg:order-1">
+          <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-600/10 border border-indigo-500/20 rounded-full text-sm text-indigo-300">
+              <div class="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></div>
+              Built with Kwala Workflows
+            </div>
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight leading-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+              Decentralized Gaming Tournament Platform
+            </h1>
+          </div>
+          <p class="text-base md:text-lg text-slate-300 leading-relaxed max-w-2xl">
+            Automate cross-chain gaming tournaments with player registration, match scheduling, and prize distribution using Kwala's event-driven workflows.
           </p>
-          <div class="flex flex-col sm:flex-row gap-3">
-            <a href="./tournaments.html" class="px-6 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 font-semibold text-center transition-colors">Join Tournament</a>
-            <a href="./docs.html" class="px-6 py-3 rounded-lg border border-slate-700 hover:border-slate-600 text-center transition-colors">Learn More</a>
+          <div class="flex flex-col sm:flex-row gap-3 pt-2">
+            <a href="./tournaments.html" class="group px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 font-semibold text-center transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-indigo-500/25">
+              <span class="flex items-center justify-center gap-2">
+                🏆 Join Tournament
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+              </span>
+            </a>
+            <a href="./docs.html" class="px-6 py-3 rounded-lg border border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 text-center transition-all duration-300 backdrop-blur-sm">
+              Learn More
+            </a>
+          </div>
+          
+          <!-- Quick Stats -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-4 md:pt-6">
+            <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 rounded-lg p-3 text-center">
+              <div class="text-lg md:text-xl font-bold text-green-400" id="hero-total-prizes">0 ETH</div>
+              <div class="text-xs text-slate-400">Distributed</div>
+            </div>
+            <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 rounded-lg p-3 text-center">
+              <div class="text-lg md:text-xl font-bold text-blue-400" id="hero-tournaments">0</div>
+              <div class="text-xs text-slate-400">Tournaments</div>
+            </div>
+            <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 rounded-lg p-3 text-center col-span-2 sm:col-span-1">
+              <div class="text-lg md:text-xl font-bold text-purple-400" id="hero-players">0</div>
+              <div class="text-xs text-slate-400">Players</div>
+            </div>
           </div>
         </section>
 
-        <section class="relative h-[300px] sm:h-[400px] lg:h-[460px] rounded-xl overflow-hidden border border-slate-800">
+        <section class="relative h-[280px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[550px] rounded-xl overflow-hidden border border-slate-800/50 bg-gradient-to-br from-slate-900/50 to-slate-950/80 backdrop-blur-sm order-1 lg:order-2">
           <canvas id="hero" class="absolute inset-0 h-full w-full"></canvas>
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent"></div>
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/20"></div>
+          
+          <!-- Floating Tournament Stats -->
+          <div class="absolute top-3 right-3 md:top-4 md:right-4 bg-slate-900/90 backdrop-blur-sm border border-slate-700/50 rounded-lg p-2 md:p-3 text-center shadow-lg">
+            <div class="text-sm md:text-lg font-bold text-indigo-300" id="live-tournaments">0</div>
+            <div class="text-xs text-slate-400">Live</div>
+          </div>
+          
+          <!-- Floating Prize Pool -->
+          <div class="absolute bottom-3 left-3 md:bottom-4 md:left-4 bg-slate-900/90 backdrop-blur-sm border border-slate-700/50 rounded-lg p-2 md:p-3 text-center shadow-lg">
+            <div class="text-sm md:text-lg font-bold text-green-400" id="total-pool">0 ETH</div>
+            <div class="text-xs text-slate-400">Pool</div>
+          </div>
+          
+          <!-- Floating Achievement Badge -->
+          <div class="absolute top-3 left-3 md:top-4 md:left-4 bg-slate-900/90 backdrop-blur-sm border border-slate-700/50 rounded-lg p-2 md:p-3 text-center shadow-lg">
+            <div class="text-sm md:text-lg font-bold text-yellow-400">⚡</div>
+            <div class="text-xs text-slate-400">Kwala</div>
+          </div>
+          
+          <!-- Floating Particles -->
+          <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="particle absolute w-1 h-1 bg-indigo-400 rounded-full opacity-60 animate-float-1"></div>
+            <div class="particle absolute w-1 h-1 bg-purple-400 rounded-full opacity-40 animate-float-2"></div>
+            <div class="particle absolute w-1 h-1 bg-blue-400 rounded-full opacity-50 animate-float-3"></div>
+            <div class="particle absolute w-1 h-1 bg-green-400 rounded-full opacity-30 animate-float-4"></div>
+            <div class="particle absolute w-0.5 h-0.5 bg-cyan-400 rounded-full opacity-70 animate-float-1" style="animation-delay: -2s;"></div>
+            <div class="particle absolute w-0.5 h-0.5 bg-pink-400 rounded-full opacity-50 animate-float-3" style="animation-delay: -4s;"></div>
+          </div>
+          
+          <!-- Interactive Glow Effect -->
+          <div class="absolute inset-0 bg-gradient-to-r from-indigo-500/5 via-purple-500/5 to-cyan-500/5 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
         </section>
       </div>
 
@@ -166,13 +228,56 @@
       </section>
     </main>
 
+    <style>
+      @keyframes float-1 {
+        0%, 100% { transform: translate(10px, 10px) scale(1); opacity: 0.6; }
+        25% { transform: translate(100px, 50px) scale(1.2); opacity: 0.8; }
+        50% { transform: translate(200px, 20px) scale(0.8); opacity: 0.4; }
+        75% { transform: translate(150px, 80px) scale(1.1); opacity: 0.7; }
+      }
+      @keyframes float-2 {
+        0%, 100% { transform: translate(300px, 80px) scale(0.8); opacity: 0.4; }
+        33% { transform: translate(250px, 30px) scale(1.3); opacity: 0.6; }
+        66% { transform: translate(350px, 60px) scale(0.9); opacity: 0.5; }
+      }
+      @keyframes float-3 {
+        0%, 100% { transform: translate(150px, 120px) scale(1.1); opacity: 0.5; }
+        50% { transform: translate(80px, 40px) scale(0.7); opacity: 0.8; }
+      }
+      @keyframes float-4 {
+        0%, 100% { transform: translate(280px, 40px) scale(0.9); opacity: 0.3; }
+        25% { transform: translate(320px, 100px) scale(1.4); opacity: 0.6; }
+        75% { transform: translate(200px, 70px) scale(0.6); opacity: 0.4; }
+      }
+      .animate-float-1 { animation: float-1 8s ease-in-out infinite; }
+      .animate-float-2 { animation: float-2 12s ease-in-out infinite; }
+      .animate-float-3 { animation: float-3 10s ease-in-out infinite; }
+      .animate-float-4 { animation: float-4 15s ease-in-out infinite; }
+      
+      .particle {
+        filter: blur(0.5px);
+        box-shadow: 0 0 6px currentColor;
+      }
+    </style>
+
     <script>
-      // Simple 3D scene with rotating torus knots and glow
+      // Enhanced 3D scene with tournament-themed elements
       const canvas = document.getElementById('hero');
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      const renderer = new THREE.WebGLRenderer({ 
+        canvas, 
+        antialias: true, 
+        alpha: true,
+        powerPreference: "high-performance"
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
-      camera.position.set(0, 0, 6);
+      scene.fog = new THREE.Fog(0x0f172a, 5, 15);
+
+      const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 100);
+      camera.position.set(0, 2, 8);
 
       const resize = () => {
         const rect = canvas.getBoundingClientRect();
@@ -185,41 +290,205 @@
       window.addEventListener('resize', resize);
       resize();
 
-      const ambient = new THREE.AmbientLight(0x5577ff, 0.6);
+      // Enhanced lighting
+      const ambient = new THREE.AmbientLight(0x404040, 0.4);
       scene.add(ambient);
-      const dir = new THREE.DirectionalLight(0x88aaff, 1.2);
-      dir.position.set(2, 3, 5);
-      scene.add(dir);
 
-      const group = new THREE.Group();
-      scene.add(group);
+      const mainLight = new THREE.DirectionalLight(0x6366f1, 1.5);
+      mainLight.position.set(5, 5, 5);
+      mainLight.castShadow = true;
+      mainLight.shadow.mapSize.width = 2048;
+      mainLight.shadow.mapSize.height = 2048;
+      scene.add(mainLight);
 
-      const geo = new THREE.TorusKnotGeometry(1, 0.35, 200, 32);
-      const mat1 = new THREE.MeshStandardMaterial({ color: 0x5b7cff, metalness: 0.5, roughness: 0.2 });
-      const mat2 = new THREE.MeshStandardMaterial({ color: 0x00c2ff, metalness: 0.3, roughness: 0.4 });
+      const accentLight = new THREE.PointLight(0x8b5cf6, 0.8, 10);
+      accentLight.position.set(-3, 2, 3);
+      scene.add(accentLight);
 
-      const knot1 = new THREE.Mesh(geo, mat1);
-      const knot2 = new THREE.Mesh(geo, mat2);
-      knot2.scale.set(0.6, 0.6, 0.6);
-      knot2.position.set(2.2, -0.8, -0.5);
-      group.add(knot1);
-      group.add(knot2);
+      const backLight = new THREE.PointLight(0x06b6d4, 0.6, 8);
+      backLight.position.set(0, -2, -3);
+      scene.add(backLight);
 
-      const glowGeo = new THREE.SphereGeometry(2.5, 64, 64);
-      const glowMat = new THREE.MeshBasicMaterial({ color: 0x1b2a6b, transparent: true, opacity: 0.25 });
-      const glow = new THREE.Mesh(glowGeo, glowMat);
-      scene.add(glow);
+      // Tournament trophy geometry
+      const trophyGroup = new THREE.Group();
+      scene.add(trophyGroup);
 
+      // Trophy base
+      const baseGeometry = new THREE.CylinderGeometry(0.8, 1.2, 0.3, 16);
+      const baseMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x1e293b, 
+        metalness: 0.8, 
+        roughness: 0.2 
+      });
+      const base = new THREE.Mesh(baseGeometry, baseMaterial);
+      base.position.y = -1.5;
+      base.castShadow = true;
+      trophyGroup.add(base);
+
+      // Trophy cup
+      const cupGeometry = new THREE.SphereGeometry(1, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.6);
+      const cupMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0xfbbf24, 
+        metalness: 0.9, 
+        roughness: 0.1,
+        emissive: 0x332211,
+        emissiveIntensity: 0.1
+      });
+      const cup = new THREE.Mesh(cupGeometry, cupMaterial);
+      cup.position.y = -0.5;
+      cup.castShadow = true;
+      trophyGroup.add(cup);
+
+      // Trophy handles
+      const handleGeometry = new THREE.TorusGeometry(0.3, 0.1, 8, 16);
+      const handleMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0xfbbf24, 
+        metalness: 0.9, 
+        roughness: 0.1 
+      });
+      
+      const handle1 = new THREE.Mesh(handleGeometry, handleMaterial);
+      handle1.position.set(1.2, -0.5, 0);
+      handle1.rotation.z = Math.PI / 2;
+      handle1.castShadow = true;
+      trophyGroup.add(handle1);
+
+      const handle2 = new THREE.Mesh(handleGeometry, handleMaterial);
+      handle2.position.set(-1.2, -0.5, 0);
+      handle2.rotation.z = Math.PI / 2;
+      handle2.castShadow = true;
+      trophyGroup.add(handle2);
+
+      // Floating coins/tokens
+      const coins = [];
+      const coinGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.05, 16);
+      const coinMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x10b981, 
+        metalness: 0.8, 
+        roughness: 0.2,
+        emissive: 0x064e3b,
+        emissiveIntensity: 0.1
+      });
+
+      for (let i = 0; i < 8; i++) {
+        const coin = new THREE.Mesh(coinGeometry, coinMaterial);
+        coin.position.set(
+          (Math.random() - 0.5) * 8,
+          (Math.random() - 0.5) * 4,
+          (Math.random() - 0.5) * 6
+        );
+        coin.rotation.set(
+          Math.random() * Math.PI,
+          Math.random() * Math.PI,
+          Math.random() * Math.PI
+        );
+        coin.castShadow = true;
+        coins.push(coin);
+        scene.add(coin);
+      }
+
+      // Particle system for magical effect
+      const particleGeometry = new THREE.BufferGeometry();
+      const particleCount = 100;
+      const positions = new Float32Array(particleCount * 3);
+      const colors = new Float32Array(particleCount * 3);
+
+      for (let i = 0; i < particleCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 20;
+        positions[i + 1] = (Math.random() - 0.5) * 10;
+        positions[i + 2] = (Math.random() - 0.5) * 20;
+
+        const color = new THREE.Color();
+        color.setHSL(0.6 + Math.random() * 0.2, 0.8, 0.6);
+        colors[i] = color.r;
+        colors[i + 1] = color.g;
+        colors[i + 2] = color.b;
+      }
+
+      particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+      const particleMaterial = new THREE.PointsMaterial({
+        size: 0.05,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending
+      });
+
+      const particles = new THREE.Points(particleGeometry, particleMaterial);
+      scene.add(particles);
+
+      // Animation
       const clock = new THREE.Clock();
+      let mouseX = 0, mouseY = 0;
+
+      document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+      });
+
       function animate() {
         const t = clock.getElapsedTime();
-        knot1.rotation.x = t * 0.35; knot1.rotation.y = t * 0.22;
-        knot2.rotation.x = -t * 0.28; knot2.rotation.y = t * 0.41;
-        group.position.y = Math.sin(t * 0.8) * 0.15;
+        
+        // Trophy rotation with mouse interaction
+        trophyGroup.rotation.y = t * 0.3 + mouseX * 0.2;
+        trophyGroup.rotation.x = Math.sin(t * 0.5) * 0.1 + mouseY * 0.1;
+        trophyGroup.position.y = Math.sin(t * 0.8) * 0.2;
+
+        // Animate coins
+        coins.forEach((coin, i) => {
+          coin.rotation.x += 0.01 + i * 0.001;
+          coin.rotation.y += 0.015 + i * 0.001;
+          coin.position.y += Math.sin(t * 2 + i) * 0.002;
+          
+          // Orbit around trophy
+          const radius = 3 + Math.sin(t + i) * 0.5;
+          coin.position.x = Math.cos(t * 0.5 + i * 0.8) * radius;
+          coin.position.z = Math.sin(t * 0.5 + i * 0.8) * radius;
+        });
+
+        // Animate particles
+        const positions = particles.geometry.attributes.position.array;
+        for (let i = 0; i < positions.length; i += 3) {
+          positions[i + 1] += Math.sin(t + positions[i]) * 0.001;
+        }
+        particles.geometry.attributes.position.needsUpdate = true;
+        particles.rotation.y = t * 0.1;
+
+        // Camera gentle movement
+        camera.position.x = Math.sin(t * 0.2) * 0.5;
+        camera.position.y = 2 + Math.cos(t * 0.3) * 0.3;
+        camera.lookAt(0, 0, 0);
+
         renderer.render(scene, camera);
         requestAnimationFrame(animate);
       }
       animate();
+
+      // Update live stats
+      function updateLiveStats() {
+        if (window.tournamentData) {
+          const stats = window.tournamentData.getStatistics();
+          const activeTournaments = window.tournamentData.getActiveTournaments();
+          const totalPool = activeTournaments.reduce((sum, t) => sum + t.prizePool, 0);
+          const allPayouts = window.tournamentData.getAllPayouts();
+          const totalDistributed = allPayouts.reduce((sum, p) => sum + p.prizeAmount, 0);
+          
+          // Update 3D scene stats
+          document.getElementById('live-tournaments').textContent = stats.activeTournaments;
+          document.getElementById('total-pool').textContent = totalPool.toFixed(1) + ' ETH';
+          
+          // Update hero section stats
+          document.getElementById('hero-total-prizes').textContent = totalDistributed.toFixed(1) + ' ETH';
+          document.getElementById('hero-tournaments').textContent = stats.totalTournaments;
+          document.getElementById('hero-players').textContent = stats.totalPlayers;
+        }
+      }
+
+      // Update stats periodically
+      setInterval(updateLiveStats, 5000);
+      setTimeout(updateLiveStats, 1000); // Initial update
 
       // Mobile menu toggle
       document.getElementById('mobile-menu').addEventListener('click', () => {
