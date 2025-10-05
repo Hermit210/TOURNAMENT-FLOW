@@ -6,6 +6,7 @@
     <title>TournamentFlow — Gaming Tournaments</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="./js/tournament-data.js"></script>
   </head>
   <body class="bg-slate-950 text-slate-100 min-h-screen">
     <header class="border-b border-slate-800/60 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
@@ -428,6 +429,208 @@
     </main>
 
     <script>
+      // Initialize page
+      document.addEventListener('DOMContentLoaded', () => {
+        loadTournaments();
+        updateTournamentStats();
+        loadRecentResults();
+        
+        // Listen for tournament events
+        window.tournamentData.addEventListener('tournament_created', () => {
+          loadTournaments();
+          updateTournamentStats();
+        });
+
+        window.tournamentData.addEventListener('player_registered', () => {
+          loadTournaments();
+          updateTournamentStats();
+        });
+
+        window.tournamentData.addEventListener('tournament_started', () => {
+          loadTournaments();
+          updateTournamentStats();
+        });
+
+        window.tournamentData.addEventListener('tournament_completed', () => {
+          loadTournaments();
+          updateTournamentStats();
+          loadRecentResults();
+        });
+      });
+
+      function loadRecentResults() {
+        const completedTournaments = window.tournamentData.getCompletedTournaments().slice(0, 3);
+        const resultsSection = document.querySelector('#recent-results');
+        
+        if (!resultsSection) {
+          // Create the recent results section if it doesn't exist
+          const recentResultsHTML = `
+            <section class="mb-8">
+              <h2 class="text-xl font-bold mb-4">Recent Tournament Results</h2>
+              <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
+                <div id="recent-results-content" class="space-y-4">
+                </div>
+              </div>
+            </section>
+          `;
+          
+          // Insert before the "How Kwala Powers Tournaments" section
+          const kwalaSection = document.querySelector('.bg-slate-900\\/40.border.border-slate-800.rounded-xl');
+          if (kwalaSection) {
+            kwalaSection.insertAdjacentHTML('beforebegin', recentResultsHTML);
+          }
+        }
+
+        const resultsContainer = document.querySelector('#recent-results-content') || document.querySelector('#recent-results');
+        if (!resultsContainer) return;
+
+        if (completedTournaments.length === 0) {
+          resultsContainer.innerHTML = `
+            <div class="text-center py-8 text-slate-400">
+              <p>No completed tournaments yet</p>
+              <p class="text-sm">Tournament results will appear here</p>
+            </div>
+          `;
+          return;
+        }
+
+        resultsContainer.innerHTML = completedTournaments.map(tournament => `
+          <div class="flex items-center justify-between p-4 bg-slate-800/50 rounded-lg">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-slate-200">${tournament.name}</div>
+                <div class="text-sm text-slate-400">Winner: ${tournament.winner?.username || 'Unknown'} • ${tournament.registeredPlayers.length} players • ${window.tournamentData.formatTimeAgo(tournament.completedAt)}</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-green-400 font-semibold">${tournament.prizePool.toFixed(1)} ETH</div>
+              <div class="text-xs text-slate-400">Prize Pool</div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      function loadTournaments() {
+        const tournaments = window.tournamentData.getActiveTournaments();
+        const tournamentsGrid = document.getElementById('tournaments-grid');
+        
+        if (tournaments.length === 0) {
+          tournamentsGrid.innerHTML = `
+            <div class="col-span-full text-center py-12">
+              <div class="text-slate-400 mb-4">
+                <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+                <h3 class="text-lg font-semibold mb-2">No Active Tournaments</h3>
+                <p class="mb-4">Be the first to create a tournament and start competing!</p>
+              </div>
+              <div class="text-sm text-slate-500 mb-4">
+                Create tournaments with automated Kwala workflows for:
+                <div class="flex justify-center gap-4 mt-2 text-xs">
+                  <span>• Instant Registration</span>
+                  <span>• Auto Brackets</span>
+                  <span>• Prize Distribution</span>
+                </div>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        tournamentsGrid.innerHTML = tournaments.map(tournament => createTournamentCard(tournament)).join('');
+        
+        // Add event listeners to tournament cards
+        setupTournamentCardListeners();
+      }
+
+      function createTournamentCard(tournament) {
+        const statusColors = {
+          'filling': { bg: 'yellow-600', text: 'FILLING' },
+          'active': { bg: 'green-600', text: 'LIVE' },
+          'completed': { bg: 'gray-600', text: 'COMPLETED' }
+        };
+        
+        const status = statusColors[tournament.status] || statusColors.filling;
+        const timeText = tournament.status === 'filling' ? 
+          (tournament.registeredPlayers.length === tournament.maxPlayers ? 'Starting soon' : 'When full') :
+          tournament.status === 'active' ? 'In progress' : 'Completed';
+        
+        return `
+          <div class="tournament-card bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors" 
+               data-status="${tournament.status}" 
+               data-prize="${tournament.prizePool}" 
+               data-players="${tournament.registeredPlayers.length}" 
+               data-time="0">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-semibold text-indigo-300">${tournament.name}</h3>
+              <div class="text-xs bg-${status.bg} text-white px-2 py-1 rounded">${status.text}</div>
+            </div>
+            <div class="space-y-2 text-sm text-slate-400 mb-4">
+              <div class="flex justify-between">
+                <span>Prize Pool:</span>
+                <span class="text-green-400 font-semibold">${tournament.prizePool.toFixed(2)} ETH</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Players:</span>
+                <span class="text-slate-300">${tournament.registeredPlayers.length}/${tournament.maxPlayers}</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Entry Fee:</span>
+                <span class="text-slate-300">${tournament.entryFee} ETH</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Starts:</span>
+                <span class="text-slate-300">${timeText}</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Game:</span>
+                <span class="text-slate-300">${tournament.gameType}</span>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <button class="flex-1 py-2 ${tournament.status === 'filling' ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-slate-700 hover:bg-slate-600'} rounded-lg font-semibold transition-colors join-tournament" 
+                      data-tournament-id="${tournament.id}"
+                      ${tournament.status !== 'filling' ? 'disabled' : ''}>
+                ${tournament.status === 'filling' ? 'Join Tournament' : tournament.status === 'active' ? 'In Progress' : 'Completed'}
+              </button>
+              <button class="px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors view-bracket" data-tournament-id="${tournament.id}">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                  <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      function setupTournamentCardListeners() {
+        // Join tournament buttons
+        document.querySelectorAll('.join-tournament').forEach(btn => {
+          btn.addEventListener('click', handleJoinTournament);
+        });
+
+        // View bracket buttons
+        document.querySelectorAll('.view-bracket').forEach(btn => {
+          btn.addEventListener('click', handleViewBracket);
+        });
+      }
+
+      function updateTournamentStats() {
+        const stats = window.tournamentData.getStatistics();
+        const activeTournaments = window.tournamentData.getActiveTournaments();
+        
+        document.getElementById('active-tournaments-count').textContent = stats.activeTournaments;
+        document.getElementById('total-prize-pool').textContent = activeTournaments.reduce((sum, t) => sum + t.prizePool, 0).toFixed(1) + ' ETH';
+        document.getElementById('active-players').textContent = activeTournaments.reduce((sum, t) => sum + t.registeredPlayers.length, 0);
+        document.getElementById('tournaments-today').textContent = stats.totalTournaments;
+      }
+
       // Kwala Testnet Configuration
       const KWALA_TESTNET_DEC = 2410;
       const KWALA_TESTNET_HEX = '0x96A';
@@ -520,6 +723,7 @@
         try {
           const provider = await connect();
           const signer = provider.getSigner();
+          const account = await signer.getAddress();
           
           const name = document.getElementById('tournament-name').value.trim();
           const maxPlayers = parseInt(document.getElementById('max-players').value);
@@ -538,25 +742,24 @@
           log(`Players: ${maxPlayers}, Entry Fee: ${entryFee} KWALA, Game: ${gameType}`);
           
           // Simulate transaction delay
-          await new Promise(resolve => setTimeout(resolve, 3000));
+          await new Promise(resolve => setTimeout(resolve, 2000));
           
-          const mockTxHash = '0x' + Math.random().toString(16).substr(2, 64);
-          const tournamentId = Math.floor(Math.random() * 1000) + 100;
+          // Create tournament in data system
+          const tournament = window.tournamentData.createTournament({
+            name: name,
+            creator: account,
+            maxPlayers: maxPlayers,
+            entryFee: parseFloat(entryFee),
+            gameType: gameType
+          });
           
           log(`Tournament created successfully!`);
-          log(`Tournament ID: ${tournamentId}`);
-          log(`Transaction: ${mockTxHash}`);
+          log(`Tournament ID: ${tournament.id}`);
+          log(`Transaction: ${window.tournamentData.generateTxHash()}`);
           log('Kwala workflow is now monitoring for player registrations');
           
-          // Add new tournament to the grid
-          addNewTournamentToGrid({
-            id: tournamentId,
-            name: name,
-            maxPlayers: maxPlayers,
-            entryFee: entryFee,
-            gameType: gameType,
-            status: 'filling'
-          });
+          // Refresh tournaments display
+          loadTournaments();
           
           // Clear form
           document.getElementById('tournament-name').value = '';
@@ -658,32 +861,48 @@
       }
 
       // Handle join tournament (for dynamically added buttons)
-      function handleJoinTournament(e) {
+      async function handleJoinTournament(e) {
         const tournamentId = e.target.dataset.tournamentId;
         const originalText = e.target.textContent;
         
-        connect().then(() => {
+        try {
+          const provider = await connect();
+          const signer = provider.getSigner();
+          const account = await signer.getAddress();
+          
           e.target.textContent = 'Joining...';
           e.target.disabled = true;
           
-          log(`Joining tournament #${tournamentId}...`);
+          log(`Joining tournament ${tournamentId}...`);
           
-          setTimeout(() => {
-            const mockTxHash = '0x' + Math.random().toString(16).substr(2, 64);
-            log(`Registration successful! Tx: ${mockTxHash}`);
-            
-            e.target.textContent = 'Registered ✓';
-            e.target.classList.remove('bg-indigo-600', 'hover:bg-indigo-500');
-            e.target.classList.add('bg-green-600');
-            
-            showNotification('Successfully joined tournament!', 'success');
-          }, 2000);
-        }).catch(error => {
+          // Simulate transaction delay
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          
+          // Register player in tournament
+          const tournament = window.tournamentData.registerPlayer(tournamentId, {
+            address: account,
+            username: `Player_${account.slice(-4)}`
+          });
+          
+          const mockTxHash = window.tournamentData.generateTxHash();
+          log(`Registration successful! Tx: ${mockTxHash}`);
+          log(`Players: ${tournament.registeredPlayers.length}/${tournament.maxPlayers}`);
+          
+          if (tournament.status === 'active') {
+            log('Tournament is now starting! Kwala will generate brackets automatically.');
+          }
+          
+          // Refresh tournaments display
+          loadTournaments();
+          
+          showNotification('Successfully joined tournament!', 'success');
+          
+        } catch (error) {
           log(`Error: ${error.message || error}`);
           e.target.textContent = originalText;
           e.target.disabled = false;
-          showNotification('Failed to join tournament', 'error');
-        });
+          showNotification(`Failed to join tournament: ${error.message}`, 'error');
+        }
       }
 
       // Handle view bracket (for dynamically added buttons)
@@ -868,55 +1087,116 @@
 
       // Generate bracket HTML
       function generateBracketHTML(tournamentId) {
-        const brackets = {
-          '1': {
-            rounds: [
-              { name: 'Round 1', matches: [
-                { player1: 'CryptoGamer_Pro', player2: 'BlockchainBeast', winner: 'CryptoGamer_Pro' },
-                { player1: 'MetaWarrior', player2: 'ChainChampion', winner: 'MetaWarrior' },
-                { player1: 'DigitalDragon', player2: 'FastFingers', winner: 'DigitalDragon' },
-                { player1: 'Web3Wizard', player2: 'DeFiDominator', winner: 'Web3Wizard' }
-              ]},
-              { name: 'Semi-Finals', matches: [
-                { player1: 'CryptoGamer_Pro', player2: 'MetaWarrior', winner: 'CryptoGamer_Pro' },
-                { player1: 'DigitalDragon', player2: 'Web3Wizard', winner: 'DigitalDragon' }
-              ]},
-              { name: 'Finals', matches: [
-                { player1: 'CryptoGamer_Pro', player2: 'DigitalDragon', winner: 'CryptoGamer_Pro' }
-              ]}
-            ]
-          },
-          '2': {
-            rounds: [
-              { name: 'Round 1', matches: [
-                { player1: 'NFTNinja', player2: 'TokenTitan', winner: null },
-                { player1: 'CryptoKnight', player2: 'BlockBuster', winner: null }
-              ]}
-            ]
-          }
-        };
+        const tournament = window.tournamentData.getTournament(tournamentId);
         
-        const bracket = brackets[tournamentId] || { rounds: [{ name: 'Waiting for players...', matches: [] }] };
-        
-        return bracket.rounds.map(round => `
+        if (!tournament) {
+          return '<div class="text-center py-8 text-slate-400">Tournament not found</div>';
+        }
+
+        if (tournament.status === 'filling') {
+          return `
+            <div class="text-center py-8">
+              <div class="text-slate-400 mb-4">
+                <svg class="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                </svg>
+                <p class="mb-2">Waiting for players to join</p>
+                <p class="text-sm">${tournament.registeredPlayers.length}/${tournament.maxPlayers} players registered</p>
+              </div>
+              <div class="space-y-2">
+                <h4 class="font-semibold text-indigo-300">Registered Players:</h4>
+                <div class="grid grid-cols-2 gap-2">
+                  ${tournament.registeredPlayers.map(player => `
+                    <div class="p-2 bg-slate-800 rounded text-sm">
+                      ${player.username}
+                    </div>
+                  `).join('')}
+                  ${Array.from({length: tournament.maxPlayers - tournament.registeredPlayers.length}, (_, i) => `
+                    <div class="p-2 bg-slate-800/30 rounded text-sm text-slate-500 border-2 border-dashed border-slate-700">
+                      Waiting...
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        if (!tournament.bracket) {
+          return '<div class="text-center py-8 text-slate-400">Bracket not generated yet</div>';
+        }
+
+        return tournament.bracket.map((round, roundIndex) => `
           <div class="mb-6">
-            <h4 class="text-lg font-semibold text-slate-200 mb-3">${round.name}</h4>
+            <h4 class="text-lg font-semibold text-slate-200 mb-3">Round ${roundIndex + 1}</h4>
             <div class="space-y-2">
-              ${round.matches.map(match => `
+              ${round.map((match, matchIndex) => `
                 <div class="flex items-center justify-between p-3 bg-slate-800 rounded-lg">
                   <div class="flex-1">
-                    <div class="text-sm ${match.winner === match.player1 ? 'text-green-400 font-semibold' : 'text-slate-300'}">${match.player1}</div>
+                    <div class="text-sm ${match.winner?.address === match.player1?.address ? 'text-green-400 font-semibold' : 'text-slate-300'}">
+                      ${match.player1?.username || 'TBD'}
+                    </div>
                     <div class="text-xs text-slate-500">vs</div>
-                    <div class="text-sm ${match.winner === match.player2 ? 'text-green-400 font-semibold' : 'text-slate-300'}">${match.player2}</div>
+                    <div class="text-sm ${match.winner?.address === match.player2?.address ? 'text-green-400 font-semibold' : 'text-slate-300'}">
+                      ${match.player2?.username || 'BYE'}
+                    </div>
                   </div>
-                  <div class="text-xs ${match.winner ? 'text-green-400' : 'text-yellow-400'}">
-                    ${match.winner ? `Winner: ${match.winner}` : 'In Progress'}
+                  <div class="text-right">
+                    <div class="text-xs ${match.completed ? 'text-green-400' : 'text-yellow-400'}">
+                      ${match.completed ? (match.winner ? `Winner: ${match.winner.username}` : 'BYE') : 'Pending'}
+                    </div>
+                    ${tournament.status === 'active' && !match.completed && match.player2 ? `
+                      <button class="mt-1 px-2 py-1 text-xs bg-indigo-600 hover:bg-indigo-500 rounded transition-colors" 
+                              onclick="simulateMatch('${tournamentId}', ${roundIndex}, ${matchIndex})">
+                        Simulate Match
+                      </button>
+                    ` : ''}
                   </div>
                 </div>
               `).join('')}
             </div>
           </div>
         `).join('');
+      }
+
+      // Simulate match completion (for demo purposes)
+      function simulateMatch(tournamentId, roundIndex, matchIndex) {
+        const tournament = window.tournamentData.getTournament(tournamentId);
+        if (!tournament || !tournament.bracket) return;
+
+        const match = tournament.bracket[roundIndex][matchIndex];
+        if (!match || match.completed || !match.player2) return;
+
+        // Randomly pick winner
+        const winner = Math.random() > 0.5 ? match.player1 : match.player2;
+        match.winner = winner;
+        match.completed = true;
+
+        // Check if round is complete
+        const roundComplete = tournament.bracket[roundIndex].every(m => m.completed);
+        
+        if (roundComplete) {
+          // Check if tournament is complete
+          if (roundIndex === tournament.bracket.length - 1) {
+            // Tournament complete
+            window.tournamentData.completeTournament(tournamentId, winner.address);
+            showNotification(`Tournament completed! Winner: ${winner.username}`, 'success');
+          } else {
+            showNotification(`Round ${roundIndex + 1} completed!`, 'info');
+          }
+        }
+
+        // Save tournament data
+        window.tournamentData.saveToStorage();
+        
+        // Refresh bracket display
+        const modal = document.querySelector('.fixed.inset-0');
+        if (modal) {
+          const bracketContainer = modal.querySelector('.bracket-container');
+          if (bracketContainer) {
+            bracketContainer.innerHTML = generateBracketHTML(tournamentId);
+          }
+        }
       }
     </script>
   </body>

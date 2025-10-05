@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TournamentFlow — Tournament Rewards</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./js/tournament-data.js"></script>
   </head>
   <body class="bg-slate-950 text-slate-100 min-h-screen">
     <header class="border-b border-slate-800/60 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
@@ -50,130 +51,55 @@
       <!-- Stats Overview -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg text-center">
-          <div class="text-2xl font-bold text-indigo-300">47</div>
+          <div class="text-2xl font-bold text-indigo-300" id="completed-tournaments">0</div>
           <div class="text-xs text-slate-400">Tournaments Completed</div>
         </div>
         <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg text-center">
-          <div class="text-2xl font-bold text-green-400">156.8</div>
+          <div class="text-2xl font-bold text-green-400" id="eth-distributed">0.0</div>
           <div class="text-xs text-slate-400">ETH Distributed</div>
         </div>
         <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg text-center">
-          <div class="text-2xl font-bold text-blue-400">8</div>
+          <div class="text-2xl font-bold text-blue-400" id="active-tournaments">0</div>
           <div class="text-xs text-slate-400">Active Tournaments</div>
         </div>
         <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg text-center">
-          <div class="text-2xl font-bold text-purple-400">1.2s</div>
+          <div class="text-2xl font-bold text-purple-400" id="avg-payout-time">1.2s</div>
           <div class="text-xs text-slate-400">Avg Payout Time</div>
         </div>
       </div>
 
       <!-- Recent Payouts Grid -->
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6" id="payouts-grid">
-        <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
-          <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-400">Crypto Clash #47</div>
-            <div class="text-xs text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">1st Place</div>
+        <!-- Payouts will be loaded dynamically from tournament data -->
+        <div class="col-span-full text-center py-8">
+          <div class="text-slate-400 mb-4">
+            <svg class="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <p>No tournament payouts yet</p>
+            <p class="text-sm">Complete tournaments will appear here with automatic prize distribution</p>
           </div>
-          <div class="font-semibold text-green-400 mb-1">2.6 ETH Prize</div>
-          <div class="text-sm text-slate-300 mb-2">Winner: CryptoGamer_Pro</div>
-          <div class="text-xs text-slate-400">to 0xabc...1234</div>
-          <div class="text-xs text-slate-500 mt-2">3 minutes ago</div>
-        </div>
-        
-        <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
-          <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-400">NFT Warriors #46</div>
-            <div class="text-xs text-gray-400 bg-gray-400/10 px-2 py-1 rounded">2nd Place</div>
-          </div>
-          <div class="font-semibold text-green-400 mb-1">1.4 ETH Prize</div>
-          <div class="text-sm text-slate-300 mb-2">Winner: BlockchainBeast</div>
-          <div class="text-xs text-slate-400">to 0xdef...5678</div>
-          <div class="text-xs text-slate-500 mt-2">12 minutes ago</div>
-        </div>
-        
-        <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
-          <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-400">Weekly Cup #45</div>
-            <div class="text-xs text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">1st Place</div>
-          </div>
-          <div class="font-semibold text-green-400 mb-1">5.0 ETH Prize</div>
-          <div class="text-sm text-slate-300 mb-2">Winner: MetaWarrior</div>
-          <div class="text-xs text-slate-400">to 0xaaa...bbbb</div>
-          <div class="text-xs text-slate-500 mt-2">1 hour ago</div>
-        </div>
-        
-        <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
-          <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-400">Speed Run #44</div>
-            <div class="text-xs text-bronze-400 bg-orange-400/10 px-2 py-1 rounded">3rd Place</div>
-          </div>
-          <div class="font-semibold text-green-400 mb-1">0.8 ETH Prize</div>
-          <div class="text-sm text-slate-300 mb-2">Winner: FastFingers</div>
-          <div class="text-xs text-slate-400">to 0xccc...dddd</div>
-          <div class="text-xs text-slate-500 mt-2">2 hours ago</div>
-        </div>
-        
-        <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
-          <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-400">Battle Royale #43</div>
-            <div class="text-xs text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">1st Place</div>
-          </div>
-          <div class="font-semibold text-green-400 mb-1">3.2 ETH Prize</div>
-          <div class="text-sm text-slate-300 mb-2">Winner: ChainChampion</div>
-          <div class="text-xs text-slate-400">to 0xeee...ffff</div>
-          <div class="text-xs text-slate-500 mt-2">3 hours ago</div>
-        </div>
-        
-        <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
-          <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-400">Legends Cup #42</div>
-            <div class="text-xs text-gray-400 bg-gray-400/10 px-2 py-1 rounded">2nd Place</div>
-          </div>
-          <div class="font-semibold text-green-400 mb-1">2.0 ETH Prize</div>
-          <div class="text-sm text-slate-300 mb-2">Winner: DigitalDragon</div>
-          <div class="text-xs text-slate-400">to 0x111...2222</div>
-          <div class="text-xs text-slate-500 mt-2">4 hours ago</div>
+          <a href="./tournaments.html" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+            </svg>
+            Create Tournament
+          </a>
         </div>
       </div>
       
       <!-- Leaderboard Section -->
       <section class="mb-8">
-        <h2 class="text-xl font-bold mb-4">Top Players This Month</h2>
+        <h2 class="text-xl font-bold mb-4">Top Players</h2>
         <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6">
           <div class="grid md:grid-cols-2 gap-6">
             <!-- Top Winners -->
             <div>
               <h3 class="font-semibold text-indigo-300 mb-4">🏆 Top Winners</h3>
-              <div class="space-y-3">
-                <div class="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
-                  <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-sm font-bold text-black">1</div>
-                    <div>
-                      <div class="font-semibold text-slate-200">CryptoGamer_Pro</div>
-                      <div class="text-xs text-slate-400">12 tournaments won</div>
-                    </div>
-                  </div>
-                  <div class="text-green-400 font-semibold">24.8 ETH</div>
-                </div>
-                <div class="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
-                  <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center text-sm font-bold text-black">2</div>
-                    <div>
-                      <div class="font-semibold text-slate-200">MetaWarrior</div>
-                      <div class="text-xs text-slate-400">8 tournaments won</div>
-                    </div>
-                  </div>
-                  <div class="text-green-400 font-semibold">18.2 ETH</div>
-                </div>
-                <div class="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
-                  <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-sm font-bold text-black">3</div>
-                    <div>
-                      <div class="font-semibold text-slate-200">BlockchainBeast</div>
-                      <div class="text-xs text-slate-400">6 tournaments won</div>
-                    </div>
-                  </div>
-                  <div class="text-green-400 font-semibold">15.7 ETH</div>
+              <div id="top-winners" class="space-y-3">
+                <div class="text-center py-8 text-slate-400">
+                  <p>No tournament winners yet</p>
+                  <p class="text-sm">Complete tournaments to see leaderboard</p>
                 </div>
               </div>
             </div>
@@ -181,36 +107,10 @@
             <!-- Most Active -->
             <div>
               <h3 class="font-semibold text-indigo-300 mb-4">⚡ Most Active</h3>
-              <div class="space-y-3">
-                <div class="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
-                  <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-sm font-bold">1</div>
-                    <div>
-                      <div class="font-semibold text-slate-200">TournamentKing</div>
-                      <div class="text-xs text-slate-400">45 tournaments played</div>
-                    </div>
-                  </div>
-                  <div class="text-blue-400 font-semibold">89% Win Rate</div>
-                </div>
-                <div class="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
-                  <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-blue-400 rounded-full flex items-center justify-center text-sm font-bold">2</div>
-                    <div>
-                      <div class="font-semibold text-slate-200">GameMaster</div>
-                      <div class="text-xs text-slate-400">38 tournaments played</div>
-                    </div>
-                  </div>
-                  <div class="text-blue-400 font-semibold">76% Win Rate</div>
-                </div>
-                <div class="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
-                  <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-blue-300 rounded-full flex items-center justify-center text-sm font-bold">3</div>
-                    <div>
-                      <div class="font-semibold text-slate-200">ChainChampion</div>
-                      <div class="text-xs text-slate-400">32 tournaments played</div>
-                    </div>
-                  </div>
-                  <div class="text-blue-400 font-semibold">72% Win Rate</div>
+              <div id="most-active" class="space-y-3">
+                <div class="text-center py-8 text-slate-400">
+                  <p>No active players yet</p>
+                  <p class="text-sm">Join tournaments to appear here</p>
                 </div>
               </div>
             </div>
@@ -225,33 +125,176 @@
     </main>
 
     <script>
-      // Enhanced refresh functionality
-      document.getElementById('refresh').addEventListener('click', () => {
-        const btn = document.getElementById('refresh');
-        btn.textContent = 'Refreshing...';
-        btn.disabled = true;
+      // Initialize page with tournament data
+      document.addEventListener('DOMContentLoaded', () => {
+        loadTournamentData();
+        setupEventListeners();
         
-        // Simulate fetching new data
-        setTimeout(() => {
-          // Add new payout to the grid
-          addNewPayout();
+        // Listen for tournament events
+        window.tournamentData.addEventListener('tournament_completed', (data) => {
+          loadPayouts();
           updateStats();
-          
-          btn.textContent = 'Refresh';
-          btn.disabled = false;
-          
-          showNotification('Rewards updated!', 'success');
-        }, 1500);
+          updateLeaderboard();
+          showNotification(`Tournament "${data.tournament.name}" completed! Winner: ${data.payout.winner.username}`, 'success');
+        });
+
+        window.tournamentData.addEventListener('player_registered', (data) => {
+          updateStats();
+        });
       });
 
-      // Auto-refresh every 30 seconds
-      setInterval(() => {
-        if (Math.random() > 0.7) { // 30% chance of new payout
-          addNewPayout();
-          updateStats();
-          showNotification('New tournament payout detected!', 'info');
+      function loadTournamentData() {
+        updateStats();
+        loadPayouts();
+        updateLeaderboard();
+      }
+
+      function updateStats() {
+        const stats = window.tournamentData.getStatistics();
+        
+        document.getElementById('completed-tournaments').textContent = stats.completedTournaments;
+        document.getElementById('eth-distributed').textContent = stats.totalPrizeDistributed.toFixed(1);
+        document.getElementById('active-tournaments').textContent = stats.activeTournaments;
+        document.getElementById('avg-payout-time').textContent = stats.averagePayoutTime + 's';
+      }
+
+      function loadPayouts() {
+        const payouts = window.tournamentData.getAllPayouts();
+        const payoutsGrid = document.getElementById('payouts-grid');
+        
+        if (payouts.length === 0) {
+          payoutsGrid.innerHTML = `
+            <div class="col-span-full text-center py-8">
+              <div class="text-slate-400 mb-4">
+                <svg class="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <p>No tournament payouts yet</p>
+                <p class="text-sm">Complete tournaments will appear here with automatic prize distribution</p>
+              </div>
+              <a href="./tournaments.html" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Create Tournament
+              </a>
+            </div>
+          `;
+          return;
         }
-      }, 30000);
+
+        payoutsGrid.innerHTML = payouts.map(payout => createPayoutCard(payout)).join('');
+        
+        // Add click handlers to payout cards
+        payoutsGrid.querySelectorAll('.payout-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const payoutId = card.dataset.payoutId;
+            const payout = payouts.find(p => p.id === payoutId);
+            if (payout) {
+              showPayoutDetails(payout);
+            }
+          });
+        });
+      }
+
+      function createPayoutCard(payout) {
+        const positionColors = {
+          '1st Place': 'yellow-400',
+          '2nd Place': 'gray-400', 
+          '3rd Place': 'orange-400'
+        };
+        const color = positionColors[payout.position] || 'blue-400';
+        
+        return `
+          <div class="payout-card p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors cursor-pointer" data-payout-id="${payout.id}">
+            <div class="flex items-center justify-between mb-2">
+              <div class="text-sm text-slate-400">${payout.tournamentName}</div>
+              <div class="text-xs text-${color} bg-${color}/10 px-2 py-1 rounded">${payout.position}</div>
+            </div>
+            <div class="font-semibold text-green-400 mb-1">${payout.prizeAmount.toFixed(2)} ETH Prize</div>
+            <div class="text-sm text-slate-300 mb-2">Winner: ${payout.winner.username}</div>
+            <div class="text-xs text-slate-400">to ${window.tournamentData.formatAddress(payout.winner.address)}</div>
+            <div class="text-xs text-slate-500 mt-2">${window.tournamentData.formatTimeAgo(payout.timestamp)}</div>
+          </div>
+        `;
+      }
+
+      function updateLeaderboard() {
+        const leaderboard = window.tournamentData.getLeaderboard();
+        
+        // Update top winners
+        const topWinnersEl = document.getElementById('top-winners');
+        if (leaderboard.topWinners.length === 0) {
+          topWinnersEl.innerHTML = `
+            <div class="text-center py-8 text-slate-400">
+              <p>No tournament winners yet</p>
+              <p class="text-sm">Complete tournaments to see leaderboard</p>
+            </div>
+          `;
+        } else {
+          topWinnersEl.innerHTML = leaderboard.topWinners.slice(0, 3).map((player, index) => {
+            const colors = ['yellow-500', 'gray-400', 'orange-500'];
+            const bgColors = ['yellow', 'gray', 'orange'];
+            return `
+              <div class="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-${colors[index]} rounded-full flex items-center justify-center text-sm font-bold text-black">${index + 1}</div>
+                  <div>
+                    <div class="font-semibold text-slate-200">${player.username}</div>
+                    <div class="text-xs text-slate-400">${player.tournamentsWon || 0} tournaments won</div>
+                  </div>
+                </div>
+                <div class="text-green-400 font-semibold">${(player.totalEarnings || 0).toFixed(1)} ETH</div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        // Update most active
+        const mostActiveEl = document.getElementById('most-active');
+        if (leaderboard.mostActive.length === 0) {
+          mostActiveEl.innerHTML = `
+            <div class="text-center py-8 text-slate-400">
+              <p>No active players yet</p>
+              <p class="text-sm">Join tournaments to appear here</p>
+            </div>
+          `;
+        } else {
+          mostActiveEl.innerHTML = leaderboard.mostActive.slice(0, 3).map((player, index) => {
+            const colors = ['blue-500', 'blue-400', 'blue-300'];
+            const winRate = player.tournamentsWon && player.tournamentsPlayed ? 
+              Math.round((player.tournamentsWon / player.tournamentsPlayed) * 100) : 0;
+            return `
+              <div class="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-${colors[index]} rounded-full flex items-center justify-center text-sm font-bold">${index + 1}</div>
+                  <div>
+                    <div class="font-semibold text-slate-200">${player.username}</div>
+                    <div class="text-xs text-slate-400">${player.tournamentsPlayed || 0} tournaments played</div>
+                  </div>
+                </div>
+                <div class="text-blue-400 font-semibold">${winRate}% Win Rate</div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      function setupEventListeners() {
+        // Enhanced refresh functionality
+        document.getElementById('refresh').addEventListener('click', () => {
+          const btn = document.getElementById('refresh');
+          btn.textContent = 'Refreshing...';
+          btn.disabled = true;
+          
+          setTimeout(() => {
+            loadTournamentData();
+            btn.textContent = 'Refresh';
+            btn.disabled = false;
+            showNotification('Rewards updated!', 'success');
+          }, 1000);
+        });
+      }
 
       // Add new payout function
       function addNewPayout() {
@@ -359,11 +402,8 @@
       });
 
       // Show payout details modal
-      function showPayoutDetails(card) {
-        const tournament = card.querySelector('.text-sm.text-slate-400').textContent;
-        const prize = card.querySelector('.font-semibold.text-green-400').textContent;
-        const winner = card.querySelector('.text-sm.text-slate-300').textContent.replace('Winner: ', '');
-        const address = card.querySelector('.text-xs.text-slate-400').textContent.replace('to ', '');
+      function showPayoutDetails(payout) {
+        const tournament = window.tournamentData.getTournament(payout.tournamentId);
         
         const modal = document.createElement('div');
         modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
@@ -380,29 +420,37 @@
             <div class="space-y-4">
               <div class="p-4 bg-slate-800 rounded-lg">
                 <div class="text-sm text-slate-400 mb-1">Tournament</div>
-                <div class="font-semibold text-slate-200">${tournament}</div>
+                <div class="font-semibold text-slate-200">${payout.tournamentName}</div>
+                <div class="text-xs text-slate-500 mt-1">Game: ${payout.gameType}</div>
               </div>
               <div class="p-4 bg-slate-800 rounded-lg">
                 <div class="text-sm text-slate-400 mb-1">Winner</div>
-                <div class="font-semibold text-slate-200">${winner}</div>
+                <div class="font-semibold text-slate-200">${payout.winner.username}</div>
+                <div class="text-xs text-slate-500 mt-1">Position: ${payout.position}</div>
               </div>
               <div class="p-4 bg-slate-800 rounded-lg">
                 <div class="text-sm text-slate-400 mb-1">Prize Amount</div>
-                <div class="font-semibold text-green-400">${prize}</div>
+                <div class="font-semibold text-green-400">${payout.prizeAmount.toFixed(4)} ETH</div>
+                <div class="text-xs text-slate-500 mt-1">Total Pool: ${tournament ? tournament.prizePool.toFixed(4) : 'N/A'} ETH</div>
               </div>
               <div class="p-4 bg-slate-800 rounded-lg">
                 <div class="text-sm text-slate-400 mb-1">Recipient Address</div>
-                <div class="font-mono text-xs text-slate-300 break-all">${address}</div>
+                <div class="font-mono text-xs text-slate-300 break-all">${payout.winner.address}</div>
               </div>
               <div class="p-4 bg-slate-800 rounded-lg">
                 <div class="text-sm text-slate-400 mb-1">Transaction Hash</div>
-                <div class="font-mono text-xs text-slate-300 break-all">0x${Math.random().toString(16).substr(2, 64)}</div>
+                <div class="font-mono text-xs text-slate-300 break-all">${payout.transactionHash}</div>
+              </div>
+              <div class="p-4 bg-slate-800 rounded-lg">
+                <div class="text-sm text-slate-400 mb-1">Payout Time</div>
+                <div class="text-slate-300">${new Date(payout.timestamp).toLocaleString()}</div>
+                <div class="text-xs text-slate-500 mt-1">${window.tournamentData.formatTimeAgo(payout.timestamp)}</div>
               </div>
               <div class="flex gap-2">
-                <button class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors">
+                <button class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors" onclick="window.open('https://testnet-explorer.kwala.com/tx/${payout.transactionHash}', '_blank')">
                   View on Explorer
                 </button>
-                <button class="flex-1 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-semibold transition-colors">
+                <button class="flex-1 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-semibold transition-colors" onclick="shareResult('${payout.tournamentName}', '${payout.winner.username}', '${payout.prizeAmount.toFixed(2)}')">
                   Share Result
                 </button>
               </div>
@@ -421,6 +469,23 @@
             modal.remove();
           }
         });
+      }
+
+      // Share result function
+      function shareResult(tournamentName, winner, prize) {
+        const text = `🏆 ${winner} just won ${prize} ETH in "${tournamentName}" on TournamentFlow! Join the next tournament: ${window.location.origin}/tournaments.html`;
+        
+        if (navigator.share) {
+          navigator.share({
+            title: 'Tournament Victory!',
+            text: text,
+            url: window.location.origin
+          });
+        } else {
+          navigator.clipboard.writeText(text).then(() => {
+            showNotification('Result copied to clipboard!', 'success');
+          });
+        }
       }
 
       // Mobile menu toggle
