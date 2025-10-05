@@ -1,0 +1,55 @@
+name: nft-quest-reward-automation
+chain: base-sepolia
+version: 1.0.0
+
+trigger:
+  type: event_listener
+  config:
+    contract_address: "0x1234567890abcdef1234567890abcdef12345678" # TODO: QuestController address
+    event_signature: "QuestCompleted(address indexed userAddress, uint256 questId)"
+    parameters:
+      user_wallet: 'userAddress'
+      quest_id: 'questId'
+
+actions:
+  - name: check_drop_chance
+    type: custom_logic
+    function: math.random_int
+    input:
+      min: 1
+      max: 100
+    output:
+      random_roll: $result
+
+  - name: mint_rare_nft_if_successful
+    type: condition
+    condition: $random_roll < 50
+
+    on_success:
+      - name: mint_epic_nft
+        type: contract_call
+        config:
+          contract_address: "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd" # TODO: EpicNFT contract address
+          function_name: "safeMint"
+          inputs:
+            - type: "address"
+              value: $user_wallet
+            - type: "uint256"
+              value: 2
+          signer_key: "$KV_KWALA_MINTER_PRIVATE_KEY"
+
+      - name: notify_user_success
+        type: webhook_call
+        config:
+          url: "https://discord.com/api/webhooks/REPLACE_WITH_YOUR_WEBHOOK"
+          payload: "Success! User $user_wallet received the Epic NFT (Quest #$quest_id)."
+
+    on_failure:
+      - name: notify_user_failure
+        type: webhook_call
+        config:
+          url: "https://example.com/your-failure-webhook"
+          payload: "Roll failed for user $user_wallet. Quest #$quest_id complete, but no rare drop this time."
+
+
+

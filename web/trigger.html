@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QuestFlow Rewards Engine — Trigger</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen">
+    <header class="border-b border-slate-800/60 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="./logo.svg" class="h-8 w-8" alt="QuestFlow logo"/>
+          <a href="./index.html" class="font-semibold text-indigo-300">QuestFlow</a>
+        </div>
+        <nav class="hidden sm:flex items-center gap-6 text-sm">
+          <a class="text-slate-300 hover:text-white transition-colors" href="./trigger.html">Trigger</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./rewards.html">Rewards</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./docs.html">Docs</a>
+          <button id="connect" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 transition-colors">Connect Wallet</button>
+        </nav>
+        <button id="mobile-menu" class="sm:hidden p-2 text-slate-300 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+      <div id="mobile-nav" class="hidden sm:hidden border-t border-slate-800/60 bg-slate-900/80 backdrop-blur">
+        <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 text-sm">
+          <a class="text-slate-300 hover:text-white transition-colors" href="./trigger.html">Trigger</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./rewards.html">Rewards</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./docs.html">Docs</a>
+          <button id="connect-mobile" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 transition-colors text-left">Connect Wallet</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+      <div class="mb-8">
+        <h1 class="text-2xl md:text-3xl font-bold mb-2">Quest Trigger Demo</h1>
+        <p class="text-slate-400">Simulate quest completion and trigger automated NFT rewards via Kwala workflows.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-6 mb-8">
+        <section class="p-6 bg-slate-900 rounded-xl border border-slate-800/60 space-y-4">
+          <h2 class="text-lg font-semibold text-indigo-200">Trigger Quest Completion</h2>
+          <p class="text-slate-400 text-sm">Emit the on-chain event to kick off the Kwala workflow and mint rewards.</p>
+
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-slate-300">QuestController Address</label>
+              <input id="controller" class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:border-indigo-500 focus:outline-none transition-colors" placeholder="0x..." />
+              <p class="text-xs text-slate-500">The deployed QuestController contract address on Base Sepolia</p>
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-slate-300">Quest ID</label>
+              <input id="quest" type="number" class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:border-indigo-500 focus:outline-none transition-colors" placeholder="1" value="1" />
+              <p class="text-xs text-slate-500">The quest identifier to complete</p>
+            </div>
+
+            <button id="trigger" class="w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 font-semibold transition-colors">
+              🎮 Trigger Automated NFT Drop
+            </button>
+          </div>
+        </section>
+
+        <section class="p-6 bg-slate-900 rounded-xl border border-slate-800/60 space-y-4">
+          <h2 class="text-lg font-semibold text-indigo-200">Connection Status</h2>
+          <div class="grid grid-cols-1 gap-3 text-sm">
+            <div class="flex justify-between items-center p-2 bg-slate-800/50 rounded">
+              <span class="text-slate-400">Origin:</span>
+              <span id="origin" class="text-slate-300 font-mono text-xs">-</span>
+            </div>
+            <div class="flex justify-between items-center p-2 bg-slate-800/50 rounded">
+              <span class="text-slate-400">Network:</span>
+              <span id="network" class="text-slate-300 font-mono text-xs">-</span>
+            </div>
+            <div class="flex justify-between items-center p-2 bg-slate-800/50 rounded">
+              <span class="text-slate-400">Account:</span>
+              <span id="account" class="text-slate-300 font-mono text-xs">-</span>
+            </div>
+          </div>
+          
+          <div class="space-y-2">
+            <h3 class="text-sm font-medium text-slate-300">Transaction Log</h3>
+            <pre id="log" class="text-xs text-slate-300 whitespace-pre-wrap bg-slate-950/50 border border-slate-800 rounded-lg p-3 h-48 overflow-auto"></pre>
+          </div>
+        </section>
+      </div>
+
+      <!-- How it Works -->
+      <section class="bg-slate-900/40 border border-slate-800 rounded-xl p-6">
+        <h2 class="text-xl font-bold mb-4">How It Works</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="space-y-2">
+            <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">1</div>
+            <h3 class="font-semibold text-indigo-300">Quest Completion</h3>
+            <p class="text-sm text-slate-400">Player completes a quest in your game, triggering an on-chain event via the QuestController contract.</p>
+          </div>
+          <div class="space-y-2">
+            <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">2</div>
+            <h3 class="font-semibold text-indigo-300">Kwala Workflow</h3>
+            <p class="text-sm text-slate-400">Kwala detects the event and executes the serverless workflow, determining rewards and rarity.</p>
+          </div>
+          <div class="space-y-2">
+            <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">3</div>
+            <h3 class="font-semibold text-indigo-300">NFT Minted</h3>
+            <p class="text-sm text-slate-400">The workflow mints the NFT reward directly to the player's wallet and logs the transaction.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const BASE_SEPOLIA_DEC = 84532;
+      const BASE_SEPOLIA_HEX = '0x14A34';
+      const BASE_SEPOLIA = {
+        chainId: BASE_SEPOLIA_HEX,
+        chainName: 'Base Sepolia',
+        nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+        rpcUrls: ['https://sepolia.base.org'],
+        blockExplorerUrls: ['https://sepolia.basescan.org']
+      };
+
+      const abi = [
+        "event QuestCompleted(address indexed userAddress, uint256 questId)",
+        "function completeQuest(uint256 questId) external"
+      ];
+
+      function log(msg){
+        const el = document.getElementById('log');
+        const time = new Date().toLocaleTimeString();
+        el.textContent += `\n[${time}] ${msg}`;
+        el.scrollTop = el.scrollHeight;
+      }
+
+      async function ensureHttpOrigin() {
+        const isHttp = location.protocol === 'http:' || location.protocol === 'https:';
+        document.getElementById('origin').textContent = `${location.protocol}//${location.host}`;
+        if (!isHttp) {
+          throw new Error('Open via http://localhost (wallets do not inject on file://)');
+        }
+      }
+
+      async function ensureWallet() {
+        if (!window.ethereum) throw new Error('No wallet found (install MetaMask/Coinbase Wallet)');
+        const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');
+        const network = await provider.getNetwork();
+        document.getElementById('network').textContent = `${network.name} (id ${network.chainId})`;
+        return provider;
+      }
+
+      async function switchToBaseSepolia(provider) {
+        try {
+          await provider.send('wallet_switchEthereumChain', [{ chainId: BASE_SEPOLIA_HEX }]);
+        } catch (err) {
+          if (err && err.code === 4902) {
+            await provider.send('wallet_addEthereumChain', [BASE_SEPOLIA]);
+          } else {
+            throw err;
+          }
+        }
+      }
+
+      async function connect() {
+        await ensureHttpOrigin();
+        const provider = await ensureWallet();
+        const net = await provider.getNetwork();
+        if (net.chainId !== BASE_SEPOLIA_DEC) {
+          log('Switching network to Base Sepolia...');
+          await switchToBaseSepolia(provider);
+        }
+        const accounts = await provider.send('eth_requestAccounts', []);
+        document.getElementById('account').textContent = accounts[0] || '-';
+        const refreshed = await provider.getNetwork();
+        document.getElementById('network').textContent = `${refreshed.name} (id ${refreshed.chainId})`;
+        log('Wallet connected');
+        return provider;
+      }
+
+      document.getElementById('connect').addEventListener('click', async (e) => {
+        const btn = e.currentTarget; btn.disabled = true; btn.textContent = 'Connecting...';
+        try { await connect(); } catch (e) { log(`Error: ${e.message || e}`); }
+        finally { btn.disabled = false; btn.textContent = 'Connect Wallet'; }
+      });
+
+      document.getElementById('trigger').addEventListener('click', async () => {
+        try {
+          const provider = await connect();
+          const signer = provider.getSigner();
+          const addr = document.getElementById('controller').value.trim();
+          const questId = parseInt(document.getElementById('quest').value || '1', 10);
+          if (!ethers.utils.isAddress(addr)) throw new Error('Invalid controller address');
+          const contract = new ethers.Contract(addr, abi, signer);
+          const tx = await contract.completeQuest(questId);
+          log(`Tx sent: ${tx.hash}`);
+          const rcpt = await tx.wait();
+          log(`Confirmed in block ${rcpt.blockNumber}`);
+        } catch (e) {
+          log(`Error: ${e.message || e}`);
+        }
+      });
+
+      // Mobile menu toggle
+      document.getElementById('mobile-menu').addEventListener('click', () => {
+        const nav = document.getElementById('mobile-nav');
+        nav.classList.toggle('hidden');
+      });
+
+      // Mobile connect button
+      document.getElementById('connect-mobile').addEventListener('click', async (e) => {
+        const btn = e.currentTarget; btn.disabled = true; btn.textContent = 'Connecting...';
+        try { await connect(); } catch (e) { log(`Error: ${e.message || e}`); }
+        finally { btn.disabled = false; btn.textContent = 'Connect Wallet'; }
+      });
+    </script>
+  </body>
+</html>
