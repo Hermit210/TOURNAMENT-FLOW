@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>QuestFlow — Rewards Engine</title>
+    <title>TournamentFlow — Decentralized Gaming Tournament Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
   </head>
@@ -11,11 +11,11 @@
     <header class="border-b border-slate-800/60 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
       <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <img src="./logo.svg" class="h-8 w-8" alt="QuestFlow logo"/>
-          <span class="font-semibold text-indigo-300">QuestFlow</span>
+          <img src="./logo.svg" class="h-8 w-8" alt="TournamentFlow logo"/>
+          <span class="font-semibold text-indigo-300">TournamentFlow</span>
         </div>
         <nav class="hidden sm:flex items-center gap-6 text-sm">
-          <a class="text-slate-300 hover:text-white transition-colors" href="./trigger.html">Trigger</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./tournaments.html">Tournaments</a>
           <a class="text-slate-300 hover:text-white transition-colors" href="./rewards.html">Rewards</a>
           <a class="text-slate-300 hover:text-white transition-colors" href="./docs.html">Docs</a>
         </nav>
@@ -27,7 +27,7 @@
       </div>
       <div id="mobile-nav" class="hidden sm:hidden border-t border-slate-800/60 bg-slate-900/80 backdrop-blur">
         <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 text-sm">
-          <a class="text-slate-300 hover:text-white transition-colors" href="./trigger.html">Trigger</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./tournaments.html">Tournaments</a>
           <a class="text-slate-300 hover:text-white transition-colors" href="./rewards.html">Rewards</a>
           <a class="text-slate-300 hover:text-white transition-colors" href="./docs.html">Docs</a>
         </nav>
@@ -39,13 +39,13 @@
       <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-16">
         <section class="space-y-6 relative z-10">
           <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-            Backendless, event‑driven NFT drops for Web3 gaming
+            Decentralized Gaming Tournament Platform
           </h1>
           <p class="text-lg text-slate-300 leading-relaxed">
-            Automate loot box rewards on-chain with serverless workflows powered by Kwala. Built for the BuildWithKwala hackathon.
+            Automate cross-chain gaming tournaments with player registration, match scheduling, and prize distribution using Kwala's event-driven workflows. Built for the BuildWithKwala hackathon.
           </p>
           <div class="flex flex-col sm:flex-row gap-3">
-            <a href="./trigger.html" class="px-6 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 font-semibold text-center transition-colors">Launch Demo</a>
+            <a href="./tournaments.html" class="px-6 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 font-semibold text-center transition-colors">Join Tournament</a>
             <a href="./docs.html" class="px-6 py-3 rounded-lg border border-slate-700 hover:border-slate-600 text-center transition-colors">Learn More</a>
           </div>
         </section>
@@ -59,26 +59,26 @@
       <!-- Features Grid -->
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
         <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg">
-          <div class="font-semibold text-indigo-300 mb-2">Event-driven</div>
-          <div class="text-sm text-slate-300">Listen to on-chain events, mint gasless, notify in real-time.</div>
+          <div class="font-semibold text-indigo-300 mb-2">Auto Registration</div>
+          <div class="text-sm text-slate-300">Players register automatically via smart contracts with entry fees.</div>
         </div>
         <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg">
-          <div class="font-semibold text-indigo-300 mb-2">Dynamic logic</div>
-          <div class="text-sm text-slate-300">Randomized rarity, branching, and future cross-chain workflows.</div>
+          <div class="font-semibold text-indigo-300 mb-2">Match Scheduling</div>
+          <div class="text-sm text-slate-300">Kwala workflows handle bracket generation and match timing.</div>
         </div>
         <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg">
-          <div class="font-semibold text-indigo-300 mb-2">Serverless</div>
-          <div class="text-sm text-slate-300">No backend infrastructure needed. Deploy workflows instantly.</div>
+          <div class="font-semibold text-indigo-300 mb-2">Prize Distribution</div>
+          <div class="text-sm text-slate-300">Automated payouts to winners based on tournament results.</div>
         </div>
         <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg">
-          <div class="font-semibold text-indigo-300 mb-2">Base Network</div>
-          <div class="text-sm text-slate-300">Built on Base Sepolia for fast, low-cost transactions.</div>
+          <div class="font-semibold text-indigo-300 mb-2">Cross-Chain</div>
+          <div class="text-sm text-slate-300">Support multiple networks with unified tournament experience.</div>
         </div>
       </div>
 
-      <!-- Key Points Section -->
+      <!-- How It Works with Kwala -->
       <section class="bg-slate-900/40 border border-slate-800 rounded-xl p-6 lg:p-8">
-        <h2 class="text-2xl font-bold mb-6 text-center">Why QuestFlow?</h2>
+        <h2 class="text-2xl font-bold mb-6 text-center">How TournamentFlow Works with Kwala</h2>
         <div class="grid md:grid-cols-3 gap-6">
           <div class="text-center space-y-3">
             <div class="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center mx-auto">
@@ -86,8 +86,8 @@
                 <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
               </svg>
             </div>
-            <h3 class="font-semibold text-indigo-300">For Developers</h3>
-            <p class="text-sm text-slate-300">No complex backend setup. Deploy reward systems in minutes with Kwala workflows.</p>
+            <h3 class="font-semibold text-indigo-300">Event Detection</h3>
+            <p class="text-sm text-slate-300">Kwala monitors on-chain events like player registrations, match completions, and tournament milestones in real-time.</p>
           </div>
           <div class="text-center space-y-3">
             <div class="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center mx-auto">
@@ -95,17 +95,66 @@
                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
-            <h3 class="font-semibold text-indigo-300">For Gamers</h3>
-            <p class="text-sm text-slate-300">Instant, automated rewards. Complete quests and receive NFTs without delays.</p>
+            <h3 class="font-semibold text-indigo-300">Workflow Automation</h3>
+            <p class="text-sm text-slate-300">Serverless workflows automatically handle bracket updates, match scheduling, and prize calculations without manual intervention.</p>
           </div>
           <div class="text-center space-y-3">
             <div class="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center mx-auto">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
-            <h3 class="font-semibold text-indigo-300">For Studios</h3>
-            <p class="text-sm text-slate-300">Scale reward systems across multiple games with consistent, reliable automation.</p>
+            <h3 class="font-semibold text-indigo-300">Instant Payouts</h3>
+            <p class="text-sm text-slate-300">Winners receive prizes automatically through smart contracts, with transparent and immediate distribution of tournament pools.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tournament Features -->
+      <section class="bg-gradient-to-r from-purple-900/20 to-indigo-900/20 border border-purple-800/30 rounded-xl p-6 lg:p-8">
+        <h2 class="text-2xl font-bold mb-6 text-center text-purple-300">Tournament Platform Features</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-indigo-300">For Tournament Organizers</h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                Create tournaments with custom rules and prize pools
+              </li>
+              <li class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                Automated bracket generation and match scheduling
+              </li>
+              <li class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                Real-time tournament monitoring and analytics
+              </li>
+              <li class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                Cross-chain tournament support
+              </li>
+            </ul>
+          </div>
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-indigo-300">For Players</h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                One-click tournament registration with crypto payments
+              </li>
+              <li class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                Transparent bracket progression and match history
+              </li>
+              <li class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                Instant prize distribution upon tournament completion
+              </li>
+              <li class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                NFT achievements and tournament badges
+              </li>
+            </ul>
           </div>
         </div>
       </section>

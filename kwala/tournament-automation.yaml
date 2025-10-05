@@ -1,0 +1,235 @@
+name: tournament-automation
+description: Automated tournament management with registration, scheduling, and prize distribution
+
+triggers:
+  - name: tournament_created
+    type: contract_event
+    contract_address: "${TOURNAMENT_MANAGER_ADDRESS}"
+    event_signature: "TournamentCreated(uint256 indexed tournamentId, address indexed creator, string name, uint256 maxPlayers, uint256 entryFee)"
+    network: kwala-testnet
+
+  - name: player_registered
+    type: contract_event
+    contract_address: "${TOURNAMENT_MANAGER_ADDRESS}"
+    event_signature: "PlayerRegistered(uint256 indexed tournamentId, address indexed player, string username)"
+    network: kwala-testnet
+
+  - name: tournament_started
+    type: contract_event
+    contract_address: "${TOURNAMENT_MANAGER_ADDRESS}"
+    event_signature: "TournamentStarted(uint256 indexed tournamentId, uint256 playerCount)"
+    network: kwala-testnet
+
+  - name: match_completed
+    type: contract_event
+    contract_address: "${TOURNAMENT_MANAGER_ADDRESS}"
+    event_signature: "MatchCompleted(uint256 indexed tournamentId, address indexed winner, address indexed loser, uint256 round)"
+    network: kwala-testnet
+
+  - name: tournament_completed
+    type: contract_event
+    contract_address: "${TOURNAMENT_MANAGER_ADDRESS}"
+    event_signature: "TournamentCompleted(uint256 indexed tournamentId, address indexed winner, uint256 prizeAmount)"
+    network: kwala-testnet
+
+workflows:
+  tournament_creation_flow:
+    trigger: tournament_created
+    steps:
+      - name: initialize_tournament
+        type: function
+        code: |
+          const tournamentId = event.args.tournamentId;
+          const creator = event.args.creator;
+          const name = event.args.name;
+          
+          console.log(`New tournament created: ${name} (ID: ${tournamentId})`);
+          console.log(`Creator: ${creator}`);
+          
+          // Initialize tournament tracking
+          return {
+            tournamentId: tournamentId,
+            name: name,
+            creator: creator,
+            status: "waiting_for_players"
+          };
+
+      - name: notify_creation
+        type: webhook
+        url: "${TOURNAMENT_WEBHOOK_URL}"
+        method: POST
+        body:
+          event: "tournament_created"
+          tournament_id: "{{initialize_tournament.tournamentId}}"
+          name: "{{initialize_tournament.name}}"
+          creator: "{{initialize_tournament.creator}}"
+
+  player_registration_flow:
+    trigger: player_registered
+    steps:
+      - name: process_registration
+        type: function
+        code: |
+          const tournamentId = event.args.tournamentId;
+          const player = event.args.player;
+          const username = event.args.username;
+          
+          console.log(`Player registered: ${username} (${player}) for tournament ${tournamentId}`);
+          
+          return {
+            tournamentId: tournamentId,
+            player: player,
+            username: username
+          };
+
+      - name: update_bracket
+        type: function
+        code: |
+          // Update tournament bracket with new player
+          // In production, this would interact with bracket generation logic
+          console.log(`Updating bracket for tournament ${process_registration.tournamentId}`);
+          console.log(`Added player: ${process_registration.username}`);
+          
+          return {
+            bracketUpdated: true,
+            tournamentId: process_registration.tournamentId
+          };
+
+  tournament_start_flow:
+    trigger: tournament_started
+    steps:
+      - name: generate_bracket
+        type: function
+        code: |
+          const tournamentId = event.args.tournamentId;
+          const playerCount = event.args.playerCount;
+          
+          console.log(`Generating bracket for tournament ${tournamentId} with ${playerCount} players`);
+          
+          // Generate tournament bracket
+          const rounds = Math.ceil(Math.log2(playerCount));
+          
+          return {
+            tournamentId: tournamentId,
+            playerCount: playerCount,
+            totalRounds: rounds,
+            currentRound: 1,
+            status: "active"
+          };
+
+      - name: schedule_matches
+        type: function
+        code: |
+          const tournamentId = generate_bracket.tournamentId;
+          const playerCount = generate_bracket.playerCount;
+          
+          // Schedule first round matches
+          const matchesInRound = Math.floor(playerCount / 2);
+          
+          console.log(`Scheduling ${matchesInRound} matches for round 1 of tournament ${tournamentId}`);
+          
+          return {
+            tournamentId: tournamentId,
+            round: 1,
+            matchCount: matchesInRound,
+            scheduledAt: new Date().toISOString()
+          };
+
+      - name: notify_start
+        type: webhook
+        url: "${TOURNAMENT_WEBHOOK_URL}"
+        method: POST
+        body:
+          event: "tournament_started"
+          tournament_id: "{{generate_bracket.tournamentId}}"
+          player_count: "{{generate_bracket.playerCount}}"
+          total_rounds: "{{generate_bracket.totalRounds}}"
+
+  match_completion_flow:
+    trigger: match_completed
+    steps:
+      - name: update_bracket
+        type: function
+        code: |
+          const tournamentId = event.args.tournamentId;
+          const winner = event.args.winner;
+          const loser = event.args.loser;
+          const round = event.args.round;
+          
+          console.log(`Match completed in tournament ${tournamentId}, round ${round}`);
+          console.log(`Winner: ${winner}, Loser: ${loser}`);
+          
+          return {
+            tournamentId: tournamentId,
+            winner: winner,
+            loser: loser,
+            round: round
+          };
+
+      - name: advance_tournament
+        type: function
+        code: |
+          // Check if round is complete and advance tournament
+          console.log(`Checking if round ${update_bracket.round} is complete for tournament ${update_bracket.tournamentId}`);
+          
+          // In production, this would check remaining matches in round
+          // and potentially advance to next round or complete tournament
+          
+          return {
+            tournamentId: update_bracket.tournamentId,
+            roundComplete: true,
+            nextRound: update_bracket.round + 1
+          };
+
+  prize_distribution_flow:
+    trigger: tournament_completed
+    steps:
+      - name: calculate_prizes
+        type: function
+        code: |
+          const tournamentId = event.args.tournamentId;
+          const winner = event.args.winner;
+          const prizeAmount = event.args.prizeAmount;
+          
+          console.log(`Tournament ${tournamentId} completed!`);
+          console.log(`Winner: ${winner}, Prize: ${prizeAmount} ETH`);
+          
+          return {
+            tournamentId: tournamentId,
+            winner: winner,
+            prizeAmount: prizeAmount
+          };
+
+      - name: mint_achievement_nft
+        type: contract_call
+        contract_address: "${ACHIEVEMENT_NFT_ADDRESS}"
+        function_signature: "mintAchievement(address to, string memory achievementType, uint256 tournamentId)"
+        parameters:
+          - name: to
+            value: "{{calculate_prizes.winner}}"
+          - name: achievementType
+            value: "TOURNAMENT_WINNER"
+          - name: tournamentId
+            value: "{{calculate_prizes.tournamentId}}"
+        network: kwala-testnet
+
+      - name: notify_completion
+        type: webhook
+        url: "${TOURNAMENT_WEBHOOK_URL}"
+        method: POST
+        body:
+          event: "tournament_completed"
+          tournament_id: "{{calculate_prizes.tournamentId}}"
+          winner: "{{calculate_prizes.winner}}"
+          prize_amount: "{{calculate_prizes.prizeAmount}}"
+
+networks:
+  kwala-testnet:
+    rpc_url: "https://testnet-rpc.kwala.com"
+    chain_id: 2410
+
+secrets:
+  - TOURNAMENT_MANAGER_ADDRESS
+  - ACHIEVEMENT_NFT_ADDRESS
+  - TOURNAMENT_WEBHOOK_URL
+  - PRIVATE_KEY

@@ -1,0 +1,374 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TournamentFlow — Gaming Tournaments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen">
+    <header class="border-b border-slate-800/60 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="./logo.svg" class="h-8 w-8" alt="TournamentFlow logo"/>
+          <a href="./index.html" class="font-semibold text-indigo-300">TournamentFlow</a>
+        </div>
+        <nav class="hidden sm:flex items-center gap-6 text-sm">
+          <a class="text-slate-300 hover:text-white transition-colors" href="./tournaments.html">Tournaments</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./rewards.html">Rewards</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./docs.html">Docs</a>
+          <button id="connect" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 transition-colors">Connect Wallet</button>
+        </nav>
+        <button id="mobile-menu" class="sm:hidden p-2 text-slate-300 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+      <div id="mobile-nav" class="hidden sm:hidden border-t border-slate-800/60 bg-slate-900/80 backdrop-blur">
+        <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 text-sm">
+          <a class="text-slate-300 hover:text-white transition-colors" href="./tournaments.html">Tournaments</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./rewards.html">Rewards</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./docs.html">Docs</a>
+          <button id="connect-mobile" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 transition-colors text-left">Connect Wallet</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+      <div class="mb-8">
+        <h1 class="text-2xl md:text-3xl font-bold mb-2">Gaming Tournaments</h1>
+        <p class="text-slate-400">Join decentralized tournaments with automated registration, scheduling, and prize distribution powered by Kwala.</p>
+      </div>
+
+      <!-- Active Tournaments -->
+      <section class="mb-8">
+        <h2 class="text-xl font-bold mb-4">Active Tournaments</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Tournament Card 1 -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-semibold text-indigo-300">Crypto Clash Championship</h3>
+              <div class="text-xs bg-green-600 text-white px-2 py-1 rounded">LIVE</div>
+            </div>
+            <div class="space-y-2 text-sm text-slate-400 mb-4">
+              <div class="flex justify-between">
+                <span>Prize Pool:</span>
+                <span class="text-green-400 font-semibold">5.2 ETH</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Players:</span>
+                <span class="text-slate-300">24/32</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Entry Fee:</span>
+                <span class="text-slate-300">0.1 ETH</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Starts:</span>
+                <span class="text-slate-300">In 2 hours</span>
+              </div>
+            </div>
+            <button class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors">
+              Join Tournament
+            </button>
+          </div>
+
+          <!-- Tournament Card 2 -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-semibold text-indigo-300">NFT Warriors Battle</h3>
+              <div class="text-xs bg-yellow-600 text-white px-2 py-1 rounded">FILLING</div>
+            </div>
+            <div class="space-y-2 text-sm text-slate-400 mb-4">
+              <div class="flex justify-between">
+                <span>Prize Pool:</span>
+                <span class="text-green-400 font-semibold">2.8 ETH</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Players:</span>
+                <span class="text-slate-300">12/16</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Entry Fee:</span>
+                <span class="text-slate-300">0.2 ETH</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Starts:</span>
+                <span class="text-slate-300">When full</span>
+              </div>
+            </div>
+            <button class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors">
+              Join Tournament
+            </button>
+          </div>
+
+          <!-- Tournament Card 3 -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-semibold text-indigo-300">Weekly Legends Cup</h3>
+              <div class="text-xs bg-blue-600 text-white px-2 py-1 rounded">UPCOMING</div>
+            </div>
+            <div class="space-y-2 text-sm text-slate-400 mb-4">
+              <div class="flex justify-between">
+                <span>Prize Pool:</span>
+                <span class="text-green-400 font-semibold">10.0 ETH</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Players:</span>
+                <span class="text-slate-300">0/64</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Entry Fee:</span>
+                <span class="text-slate-300">0.15 ETH</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Starts:</span>
+                <span class="text-slate-300">Tomorrow 6PM</span>
+              </div>
+            </div>
+            <button class="w-full py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-semibold transition-colors">
+              Register Early
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Create Tournament -->
+      <section class="grid lg:grid-cols-2 gap-6 mb-8">
+        <div class="p-6 bg-slate-900 rounded-xl border border-slate-800/60 space-y-4">
+          <h2 class="text-lg font-semibold text-indigo-200">Create New Tournament</h2>
+          <p class="text-slate-400 text-sm">Launch your own tournament with automated Kwala workflows handling all the logistics.</p>
+
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-slate-300">Tournament Name</label>
+              <input id="tournament-name" class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:border-indigo-500 focus:outline-none transition-colors" placeholder="Epic Gaming Championship" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-slate-300">Max Players</label>
+                <select id="max-players" class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:border-indigo-500 focus:outline-none transition-colors">
+                  <option value="8">8 Players</option>
+                  <option value="16">16 Players</option>
+                  <option value="32">32 Players</option>
+                  <option value="64">64 Players</option>
+                </select>
+              </div>
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-slate-300">Entry Fee (ETH)</label>
+                <input id="entry-fee" type="number" step="0.01" class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:border-indigo-500 focus:outline-none transition-colors" placeholder="0.1" />
+              </div>
+            </div>
+
+            <button id="create-tournament" class="w-full py-3 rounded-lg bg-purple-600 hover:bg-purple-500 font-semibold transition-colors">
+              🏆 Create Tournament
+            </button>
+          </div>
+        </div>
+
+        <div class="p-6 bg-slate-900 rounded-xl border border-slate-800/60 space-y-4">
+          <h2 class="text-lg font-semibold text-indigo-200">Connection Status</h2>
+          <div class="grid grid-cols-1 gap-3 text-sm">
+            <div class="flex justify-between items-center p-2 bg-slate-800/50 rounded">
+              <span class="text-slate-400">Network:</span>
+              <span id="network" class="text-slate-300 font-mono text-xs">-</span>
+            </div>
+            <div class="flex justify-between items-center p-2 bg-slate-800/50 rounded">
+              <span class="text-slate-400">Account:</span>
+              <span id="account" class="text-slate-300 font-mono text-xs">-</span>
+            </div>
+            <div class="flex justify-between items-center p-2 bg-slate-800/50 rounded">
+              <span class="text-slate-400">Balance:</span>
+              <span id="balance" class="text-slate-300 font-mono text-xs">-</span>
+            </div>
+          </div>
+          
+          <div class="space-y-2">
+            <h3 class="text-sm font-medium text-slate-300">Activity Log</h3>
+            <pre id="log" class="text-xs text-slate-300 whitespace-pre-wrap bg-slate-950/50 border border-slate-800 rounded-lg p-3 h-48 overflow-auto"></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- How Kwala Powers Tournaments -->
+      <section class="bg-slate-900/40 border border-slate-800 rounded-xl p-6">
+        <h2 class="text-xl font-bold mb-4">How Kwala Powers Tournament Automation</h2>
+        <div class="grid md:grid-cols-4 gap-6">
+          <div class="space-y-2">
+            <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">1</div>
+            <h3 class="font-semibold text-indigo-300">Registration</h3>
+            <p class="text-sm text-slate-400">Players register and pay entry fees through smart contracts. Kwala monitors registration events.</p>
+          </div>
+          <div class="space-y-2">
+            <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">2</div>
+            <h3 class="font-semibold text-indigo-300">Bracket Generation</h3>
+            <p class="text-sm text-slate-400">When full, Kwala workflows automatically generate tournament brackets and schedule matches.</p>
+          </div>
+          <div class="space-y-2">
+            <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">3</div>
+            <h3 class="font-semibold text-indigo-300">Match Updates</h3>
+            <p class="text-sm text-slate-400">Game results trigger Kwala workflows to update brackets and advance winners automatically.</p>
+          </div>
+          <div class="space-y-2">
+            <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">4</div>
+            <h3 class="font-semibold text-indigo-300">Prize Distribution</h3>
+            <p class="text-sm text-slate-400">Tournament completion triggers automatic prize distribution to winners based on final standings.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Kwala Testnet Configuration
+      const KWALA_TESTNET_DEC = 2410;
+      const KWALA_TESTNET_HEX = '0x96A';
+      const KWALA_TESTNET = {
+        chainId: KWALA_TESTNET_HEX,
+        chainName: 'Kwala Testnet',
+        nativeCurrency: { name: 'KWALA', symbol: 'KWALA', decimals: 18 },
+        rpcUrls: ['https://testnet-rpc.kwala.com'],
+        blockExplorerUrls: ['https://testnet-explorer.kwala.com']
+      };
+
+      const tournamentAbi = [
+        "event TournamentCreated(uint256 indexed tournamentId, address indexed creator, string name, uint256 maxPlayers, uint256 entryFee)",
+        "event PlayerRegistered(uint256 indexed tournamentId, address indexed player)",
+        "event TournamentStarted(uint256 indexed tournamentId)",
+        "event MatchCompleted(uint256 indexed tournamentId, address indexed winner, address indexed loser)",
+        "event TournamentCompleted(uint256 indexed tournamentId, address indexed winner, uint256 prizeAmount)",
+        "function createTournament(string memory name, uint256 maxPlayers, uint256 entryFee) external returns (uint256)",
+        "function registerForTournament(uint256 tournamentId) external payable",
+        "function reportMatchResult(uint256 tournamentId, address winner, address loser) external"
+      ];
+
+      function log(msg){
+        const el = document.getElementById('log');
+        const time = new Date().toLocaleTimeString();
+        el.textContent += `\n[${time}] ${msg}`;
+        el.scrollTop = el.scrollHeight;
+      }
+
+      async function ensureWallet() {
+        if (!window.ethereum) throw new Error('No wallet found (install MetaMask/Coinbase Wallet)');
+        const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');
+        const network = await provider.getNetwork();
+        document.getElementById('network').textContent = `${network.name} (id ${network.chainId})`;
+        return provider;
+      }
+
+      async function switchToKwalaTestnet(provider) {
+        try {
+          await provider.send('wallet_switchEthereumChain', [{ chainId: KWALA_TESTNET_HEX }]);
+        } catch (err) {
+          if (err && err.code === 4902) {
+            await provider.send('wallet_addEthereumChain', [KWALA_TESTNET]);
+          } else {
+            throw err;
+          }
+        }
+      }
+
+      async function connect() {
+        const provider = await ensureWallet();
+        const net = await provider.getNetwork();
+        if (net.chainId !== KWALA_TESTNET_DEC) {
+          log('Switching network to Kwala Testnet...');
+          await switchToKwalaTestnet(provider);
+        }
+        const accounts = await provider.send('eth_requestAccounts', []);
+        const account = accounts[0];
+        document.getElementById('account').textContent = account || '-';
+        
+        // Get balance
+        const balance = await provider.getBalance(account);
+        document.getElementById('balance').textContent = `${ethers.utils.formatEther(balance)} KWALA`;
+        
+        const refreshed = await provider.getNetwork();
+        document.getElementById('network').textContent = `${refreshed.name} (id ${refreshed.chainId})`;
+        log('Wallet connected to Kwala Testnet');
+        return provider;
+      }
+
+      document.getElementById('connect').addEventListener('click', async (e) => {
+        const btn = e.currentTarget; 
+        btn.disabled = true; 
+        btn.textContent = 'Connecting...';
+        try { 
+          await connect(); 
+        } catch (e) { 
+          log(`Error: ${e.message || e}`); 
+        }
+        finally { 
+          btn.disabled = false; 
+          btn.textContent = 'Connect Wallet'; 
+        }
+      });
+
+      document.getElementById('create-tournament').addEventListener('click', async () => {
+        try {
+          const provider = await connect();
+          const signer = provider.getSigner();
+          
+          const name = document.getElementById('tournament-name').value.trim();
+          const maxPlayers = parseInt(document.getElementById('max-players').value);
+          const entryFee = ethers.utils.parseEther(document.getElementById('entry-fee').value || '0');
+          
+          if (!name) throw new Error('Tournament name is required');
+          
+          log(`Creating tournament: ${name} (${maxPlayers} players, ${ethers.utils.formatEther(entryFee)} KWALA entry)`);
+          
+          // In a real implementation, this would interact with the deployed tournament contract
+          // For demo purposes, we'll simulate the transaction
+          const mockTxHash = '0x' + Math.random().toString(16).substr(2, 64);
+          log(`Tournament created! Tx: ${mockTxHash}`);
+          log('Kwala workflow will handle registration monitoring and bracket generation');
+          
+        } catch (e) {
+          log(`Error: ${e.message || e}`);
+        }
+      });
+
+      // Mobile menu toggle
+      document.getElementById('mobile-menu').addEventListener('click', () => {
+        const nav = document.getElementById('mobile-nav');
+        nav.classList.toggle('hidden');
+      });
+
+      // Mobile connect button
+      document.getElementById('connect-mobile').addEventListener('click', async (e) => {
+        const btn = e.currentTarget; 
+        btn.disabled = true; 
+        btn.textContent = 'Connecting...';
+        try { 
+          await connect(); 
+        } catch (e) { 
+          log(`Error: ${e.message || e}`); 
+        }
+        finally { 
+          btn.disabled = false; 
+          btn.textContent = 'Connect Wallet'; 
+        }
+      });
+
+      // Simulate tournament join buttons
+      document.querySelectorAll('button').forEach(btn => {
+        if (btn.textContent.includes('Join Tournament') || btn.textContent.includes('Register Early')) {
+          btn.addEventListener('click', async () => {
+            try {
+              await connect();
+              log('Joining tournament...');
+              const mockTxHash = '0x' + Math.random().toString(16).substr(2, 64);
+              log(`Registration successful! Tx: ${mockTxHash}`);
+              log('Kwala will notify you when the tournament starts');
+            } catch (e) {
+              log(`Error: ${e.message || e}`);
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

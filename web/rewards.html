@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>QuestFlow — Rewards</title>
+    <title>TournamentFlow — Tournament Rewards</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-slate-950 text-slate-100 min-h-screen">
     <header class="border-b border-slate-800/60 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
       <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <img src="./logo.svg" class="h-8 w-8" alt="QuestFlow logo"/>
-          <a href="./index.html" class="font-semibold text-indigo-300">QuestFlow</a>
+          <img src="./logo.svg" class="h-8 w-8" alt="TournamentFlow logo"/>
+          <a href="./index.html" class="font-semibold text-indigo-300">TournamentFlow</a>
         </div>
         <nav class="hidden sm:flex items-center gap-6 text-sm">
-          <a class="text-slate-300 hover:text-white transition-colors" href="./trigger.html">Trigger</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./tournaments.html">Tournaments</a>
           <a class="text-slate-300 hover:text-white transition-colors" href="./rewards.html">Rewards</a>
           <a class="text-slate-300 hover:text-white transition-colors" href="./docs.html">Docs</a>
         </nav>
@@ -26,7 +26,7 @@
       </div>
       <div id="mobile-nav" class="hidden sm:hidden border-t border-slate-800/60 bg-slate-900/80 backdrop-blur">
         <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 text-sm">
-          <a class="text-slate-300 hover:text-white transition-colors" href="./trigger.html">Trigger</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./tournaments.html">Tournaments</a>
           <a class="text-slate-300 hover:text-white transition-colors" href="./rewards.html">Rewards</a>
           <a class="text-slate-300 hover:text-white transition-colors" href="./docs.html">Docs</a>
         </nav>
@@ -35,7 +35,7 @@
 
     <main class="max-w-6xl mx-auto px-4 py-8 md:py-10">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8">
-        <h1 class="text-2xl md:text-3xl font-bold mb-4 sm:mb-0">Recent NFT Drops</h1>
+        <h1 class="text-2xl md:text-3xl font-bold mb-4 sm:mb-0">Tournament Rewards & Payouts</h1>
         <div class="flex items-center gap-3">
           <div class="flex items-center gap-2">
             <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -50,95 +50,95 @@
       <!-- Stats Overview -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg text-center">
-          <div class="text-2xl font-bold text-indigo-300">127</div>
-          <div class="text-xs text-slate-400">Total Drops</div>
+          <div class="text-2xl font-bold text-indigo-300">47</div>
+          <div class="text-xs text-slate-400">Tournaments Completed</div>
         </div>
         <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg text-center">
-          <div class="text-2xl font-bold text-green-400">98</div>
-          <div class="text-xs text-slate-400">Active Players</div>
+          <div class="text-2xl font-bold text-green-400">156.8</div>
+          <div class="text-xs text-slate-400">ETH Distributed</div>
         </div>
         <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg text-center">
-          <div class="text-2xl font-bold text-blue-400">15</div>
-          <div class="text-xs text-slate-400">Quests Active</div>
+          <div class="text-2xl font-bold text-blue-400">8</div>
+          <div class="text-xs text-slate-400">Active Tournaments</div>
         </div>
         <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg text-center">
-          <div class="text-2xl font-bold text-purple-400">3.2s</div>
-          <div class="text-xs text-slate-400">Avg Drop Time</div>
+          <div class="text-2xl font-bold text-purple-400">1.2s</div>
+          <div class="text-xs text-slate-400">Avg Payout Time</div>
         </div>
       </div>
 
-      <!-- Recent Drops Grid -->
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6" id="drops-grid">
+      <!-- Recent Payouts Grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6" id="payouts-grid">
         <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
           <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-400">Quest #127</div>
-            <div class="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded">New</div>
+            <div class="text-sm text-slate-400">Crypto Clash #47</div>
+            <div class="text-xs text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">1st Place</div>
           </div>
-          <div class="font-semibold text-indigo-300 mb-1">Epic Loot Box</div>
-          <div class="text-sm text-slate-300 mb-2">Token #45 • Rare</div>
+          <div class="font-semibold text-green-400 mb-1">2.6 ETH Prize</div>
+          <div class="text-sm text-slate-300 mb-2">Winner: CryptoGamer_Pro</div>
           <div class="text-xs text-slate-400">to 0xabc...1234</div>
-          <div class="text-xs text-slate-500 mt-2">2 minutes ago</div>
+          <div class="text-xs text-slate-500 mt-2">3 minutes ago</div>
         </div>
         
         <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
           <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-400">Quest #126</div>
-            <div class="text-xs text-blue-400 bg-blue-400/10 px-2 py-1 rounded">Epic</div>
+            <div class="text-sm text-slate-400">NFT Warriors #46</div>
+            <div class="text-xs text-gray-400 bg-gray-400/10 px-2 py-1 rounded">2nd Place</div>
           </div>
-          <div class="font-semibold text-indigo-300 mb-1">Legendary Sword</div>
-          <div class="text-sm text-slate-300 mb-2">Token #44 • Epic</div>
+          <div class="font-semibold text-green-400 mb-1">1.4 ETH Prize</div>
+          <div class="text-sm text-slate-300 mb-2">Winner: BlockchainBeast</div>
           <div class="text-xs text-slate-400">to 0xdef...5678</div>
-          <div class="text-xs text-slate-500 mt-2">5 minutes ago</div>
-        </div>
-        
-        <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
-          <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-400">Quest #125</div>
-            <div class="text-xs text-purple-400 bg-purple-400/10 px-2 py-1 rounded">Legendary</div>
-          </div>
-          <div class="font-semibold text-indigo-300 mb-1">Dragon Scale Armor</div>
-          <div class="text-sm text-slate-300 mb-2">Token #43 • Legendary</div>
-          <div class="text-xs text-slate-400">to 0xaaa...bbbb</div>
-          <div class="text-xs text-slate-500 mt-2">8 minutes ago</div>
-        </div>
-        
-        <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
-          <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-400">Quest #124</div>
-            <div class="text-xs text-gray-400 bg-gray-400/10 px-2 py-1 rounded">Common</div>
-          </div>
-          <div class="font-semibold text-indigo-300 mb-1">Health Potion</div>
-          <div class="text-sm text-slate-300 mb-2">Token #42 • Common</div>
-          <div class="text-xs text-slate-400">to 0xccc...dddd</div>
           <div class="text-xs text-slate-500 mt-2">12 minutes ago</div>
         </div>
         
         <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
           <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-400">Quest #123</div>
-            <div class="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded">Rare</div>
+            <div class="text-sm text-slate-400">Weekly Cup #45</div>
+            <div class="text-xs text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">1st Place</div>
           </div>
-          <div class="font-semibold text-indigo-300 mb-1">Magic Shield</div>
-          <div class="text-sm text-slate-300 mb-2">Token #41 • Rare</div>
-          <div class="text-xs text-slate-400">to 0xeee...ffff</div>
-          <div class="text-xs text-slate-500 mt-2">15 minutes ago</div>
+          <div class="font-semibold text-green-400 mb-1">5.0 ETH Prize</div>
+          <div class="text-sm text-slate-300 mb-2">Winner: MetaWarrior</div>
+          <div class="text-xs text-slate-400">to 0xaaa...bbbb</div>
+          <div class="text-xs text-slate-500 mt-2">1 hour ago</div>
         </div>
         
         <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
           <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-400">Quest #122</div>
-            <div class="text-xs text-blue-400 bg-blue-400/10 px-2 py-1 rounded">Epic</div>
+            <div class="text-sm text-slate-400">Speed Run #44</div>
+            <div class="text-xs text-bronze-400 bg-orange-400/10 px-2 py-1 rounded">3rd Place</div>
           </div>
-          <div class="font-semibold text-indigo-300 mb-1">Crystal Orb</div>
-          <div class="text-sm text-slate-300 mb-2">Token #40 • Epic</div>
+          <div class="font-semibold text-green-400 mb-1">0.8 ETH Prize</div>
+          <div class="text-sm text-slate-300 mb-2">Winner: FastFingers</div>
+          <div class="text-xs text-slate-400">to 0xccc...dddd</div>
+          <div class="text-xs text-slate-500 mt-2">2 hours ago</div>
+        </div>
+        
+        <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-sm text-slate-400">Battle Royale #43</div>
+            <div class="text-xs text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">1st Place</div>
+          </div>
+          <div class="font-semibold text-green-400 mb-1">3.2 ETH Prize</div>
+          <div class="text-sm text-slate-300 mb-2">Winner: ChainChampion</div>
+          <div class="text-xs text-slate-400">to 0xeee...ffff</div>
+          <div class="text-xs text-slate-500 mt-2">3 hours ago</div>
+        </div>
+        
+        <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-sm text-slate-400">Legends Cup #42</div>
+            <div class="text-xs text-gray-400 bg-gray-400/10 px-2 py-1 rounded">2nd Place</div>
+          </div>
+          <div class="font-semibold text-green-400 mb-1">2.0 ETH Prize</div>
+          <div class="text-sm text-slate-300 mb-2">Winner: DigitalDragon</div>
           <div class="text-xs text-slate-400">to 0x111...2222</div>
-          <div class="text-xs text-slate-500 mt-2">18 minutes ago</div>
+          <div class="text-xs text-slate-500 mt-2">4 hours ago</div>
         </div>
       </div>
       
       <div class="mt-8 p-4 bg-slate-900/40 border border-slate-800 rounded-lg">
-        <h3 class="font-semibold text-indigo-300 mb-2">Integration Ready</h3>
-        <p class="text-slate-400 text-sm">Connect this dashboard to your webhook sink, The Graph indexer, or any real-time data source to show live NFT drops as they happen. Perfect for monitoring your game's reward economy.</p>
+        <h3 class="font-semibold text-indigo-300 mb-2">Kwala-Powered Automation</h3>
+        <p class="text-slate-400 text-sm">All tournament payouts are automated through Kwala workflows. Prize distribution happens instantly when tournaments complete, with transparent on-chain verification. Connect to webhooks or indexers for real-time tournament monitoring.</p>
       </div>
     </main>
 
