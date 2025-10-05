@@ -1,0 +1,34 @@
+<svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="50%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0b1220"/>
+    </radialGradient>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="b" />
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- Hexagon badge background -->
+  <path d="M48 6l29 16.75v33.5L48 73 19 56.25v-33.5L48 6z" fill="url(#glow)" stroke="url(#grad)" stroke-width="2"/>
+  <!-- Stylized Q -->
+  <circle cx="43" cy="40" r="16" fill="none" stroke="url(#grad)" stroke-width="4" filter="url(#softGlow)"/>
+  <path d="M52 49l9 8" stroke="#22d3ee" stroke-width="4" stroke-linecap="round" filter="url(#softGlow)"/>
+  <!-- Circuit traces -->
+  <g stroke="#67e8f9" stroke-width="2" stroke-linecap="round">
+    <path d="M24 30h8"/>
+    <circle cx="22" cy="30" r="2" fill="#22d3ee"/>
+    <path d="M24 50h8"/>
+    <circle cx="22" cy="50" r="2" fill="#22d3ee"/>
+    <path d="M70 38h8"/>
+    <circle cx="80" cy="38" r="2" fill="#22d3ee"/>
+  </g>
+</svg>

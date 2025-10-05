@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QuestFlow Rewards Engine — Trigger</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen">
+    <header class="border-b border-slate-800/60 bg-slate-900/60 backdrop-blur">
+      <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="h-8 w-8 rounded-full bg-gradient-to-tr from-indigo-500 to-blue-500 shadow"></div>
+          <a href="./index.html" class="font-semibold text-indigo-300">QuestFlow</a>
+        </div>
+        <nav class="flex items-center gap-4 text-sm">
+          <a class="text-slate-300 hover:text-white" href="./rewards.html">Rewards</a>
+          <a class="text-slate-300 hover:text-white" href="./docs.html">Docs</a>
+          <button id="connect" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700">Connect Wallet</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 grid md:grid-cols-2 gap-6">
+      <section class="p-6 bg-slate-900 rounded-xl border border-slate-800/60 space-y-4">
+        <h2 class="text-lg font-semibold text-indigo-200">Trigger Quest Completion</h2>
+        <p class="text-slate-400 text-sm">Emit the on-chain event to kick off the Kwala workflow.</p>
+
+        <div class="space-y-2">
+          <label class="block text-xs text-slate-400">QuestController Address</label>
+          <input id="controller" class="w-full px-3 py-2 rounded bg-slate-800 border border-slate-700" placeholder="0x..." />
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-xs text-slate-400">Quest Id</label>
+          <input id="quest" type="number" class="w-full px-3 py-2 rounded bg-slate-800 border border-slate-700" placeholder="1" value="1" />
+        </div>
+
+        <button id="trigger" class="w-full py-2 rounded bg-indigo-600 hover:bg-indigo-500 font-semibold">Trigger Automated NFT Drop</button>
+      </section>
+
+      <section class="p-6 bg-slate-900 rounded-xl border border-slate-800/60 space-y-3">
+        <h2 class="text-lg font-semibold text-indigo-200">Status</h2>
+        <div class="text-xs text-slate-400">Origin: <span id="origin">-</span></div>
+        <div class="text-xs text-slate-400">Network: <span id="network">-</span></div>
+        <div class="text-xs text-slate-400">Account: <span id="account">-</span></div>
+        <pre id="log" class="text-xs text-slate-300 whitespace-pre-wrap bg-slate-950/50 border border-slate-800 rounded p-3 h-60 overflow-auto"></pre>
+      </section>
+    </main>
+
+    <script>
+      const BASE_SEPOLIA_DEC = 84532;
+      const BASE_SEPOLIA_HEX = '0x14A34';
+      const BASE_SEPOLIA = {
+        chainId: BASE_SEPOLIA_HEX,
+        chainName: 'Base Sepolia',
+        nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+        rpcUrls: ['https://sepolia.base.org'],
+        blockExplorerUrls: ['https://sepolia.basescan.org']
+      };
+
+      const abi = [
+        "event QuestCompleted(address indexed userAddress, uint256 questId)",
+        "function completeQuest(uint256 questId) external"
+      ];
+
+      function log(msg){
+        const el = document.getElementById('log');
+        const time = new Date().toLocaleTimeString();
+        el.textContent += `\n[${time}] ${msg}`;
+        el.scrollTop = el.scrollHeight;
+      }
+
+      async function ensureHttpOrigin() {
+        const isHttp = location.protocol === 'http:' || location.protocol === 'https:';
+        document.getElementById('origin').textContent = `${location.protocol}//${location.host}`;
+        if (!isHttp) {
+          throw new Error('Open via http://localhost (wallets do not inject on file://)');
+        }
+      }
+
+      async function ensureWallet() {
+        if (!window.ethereum) throw new Error('No wallet found (install MetaMask/Coinbase Wallet)');
+        const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');
+        const network = await provider.getNetwork();
+        document.getElementById('network').textContent = `${network.name} (id ${network.chainId})`;
+        return provider;
+      }
+
+      async function switchToBaseSepolia(provider) {
+        try {
+          await provider.send('wallet_switchEthereumChain', [{ chainId: BASE_SEPOLIA_HEX }]);
+        } catch (err) {
+          if (err && err.code === 4902) {
+            await provider.send('wallet_addEthereumChain', [BASE_SEPOLIA]);
+          } else {
+            throw err;
+          }
+        }
+      }
+
+      async function connect() {
+        await ensureHttpOrigin();
+        const provider = await ensureWallet();
+        const net = await provider.getNetwork();
+        if (net.chainId !== BASE_SEPOLIA_DEC) {
+          log('Switching network to Base Sepolia...');
+          await switchToBaseSepolia(provider);
+        }
+        const accounts = await provider.send('eth_requestAccounts', []);
+        document.getElementById('account').textContent = accounts[0] || '-';
+        const refreshed = await provider.getNetwork();
+        document.getElementById('network').textContent = `${refreshed.name} (id ${refreshed.chainId})`;
+        log('Wallet connected');
+        return provider;
+      }
+
+      document.getElementById('connect').addEventListener('click', async (e) => {
+        const btn = e.currentTarget; btn.disabled = true; btn.textContent = 'Connecting...';
+        try { await connect(); } catch (e) { log(`Error: ${e.message || e}`); }
+        finally { btn.disabled = false; btn.textContent = 'Connect Wallet'; }
+      });
+
+      document.getElementById('trigger').addEventListener('click', async () => {
+        try {
+          const provider = await connect();
+          const signer = provider.getSigner();
+          const addr = document.getElementById('controller').value.trim();
+          const questId = parseInt(document.getElementById('quest').value || '1', 10);
+          if (!ethers.utils.isAddress(addr)) throw new Error('Invalid controller address');
+          const contract = new ethers.Contract(addr, abi, signer);
+          const tx = await contract.completeQuest(questId);
+          log(`Tx sent: ${tx.hash}`);
+          const rcpt = await tx.wait();
+          log(`Confirmed in block ${rcpt.blockNumber}`);
+        } catch (e) {
+          log(`Error: ${e.message || e}`);
+        }
+      });
+    </script>
+  </body>
+</html>

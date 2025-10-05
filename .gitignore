@@ -1,0 +1,29 @@
+# Node / web
+node_modules/
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.cache/
+.dist/
+dist/
+build/
+coverage/
+.env
+.env.local
+
+# Logs
+logs
+*.log
+
+# Editor
+.vscode/
+.idea/
+
+# Solidity / tools
+artifacts/
+cache/
+out/
+*.tsbuildinfo
+

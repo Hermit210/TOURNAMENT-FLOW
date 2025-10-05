@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QuestFlow — Docs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen">
+    <header class="border-b border-slate-800/60 bg-slate-900/60 backdrop-blur">
+      <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="./logo.svg" class="h-8 w-8" alt="QuestFlow logo"/>
+          <a href="./index.html" class="font-semibold text-indigo-300">QuestFlow</a>
+        </div>
+        <nav class="flex items-center gap-6 text-sm">
+          <a class="text-slate-300 hover:text-white" href="./trigger.html">Trigger</a>
+          <a class="text-slate-300 hover:text-white" href="./rewards.html">Rewards</a>
+          <a class="text-slate-300 hover:text-white" href="./docs.html">Docs</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-14 space-y-10">
+      <h1 class="text-4xl font-extrabold tracking-tight">Documentation</h1>
+      <div class="text-lg text-slate-300 leading-relaxed space-y-4">
+        <p>QuestFlow automates rewards using a backendless Kwala workflow that listens to on-chain events and executes minting + notifications.</p>
+      </div>
+      <ol class="list-decimal list-inside space-y-4 text-slate-200 text-lg">
+        <li>Deploy <code class="text-indigo-300">QuestController</code> and <code class="text-indigo-300">EpicNFT</code> to Base Sepolia.</li>
+        <li>Grant minter to the Kwala signer on <code class="text-indigo-300">EpicNFT</code>.</li>
+        <li>Fill addresses in <code class="text-indigo-300">kwala/kwala-nft-reward.yaml</code> and secrets.</li>
+        <li>Start the Kwala workflow.</li>
+        <li>Use <a class="text-indigo-300 underline" href="./trigger.html">Trigger</a> page to emit the event.</li>
+      </ol>
+      <p class="text-slate-400 text-base">For production, connect Rewards to your webhook sink or an indexer (e.g., The Graph) for live activity.</p>
+    </main>
+  </body>
+</html>
