@@ -143,23 +143,217 @@
     </main>
 
     <script>
+      // Enhanced refresh functionality
       document.getElementById('refresh').addEventListener('click', () => {
         const btn = document.getElementById('refresh');
         btn.textContent = 'Refreshing...';
         btn.disabled = true;
         
+        // Simulate fetching new data
         setTimeout(() => {
+          // Add new payout to the grid
+          addNewPayout();
+          updateStats();
+          
           btn.textContent = 'Refresh';
           btn.disabled = false;
-          // In a real app, this would fetch new data
-        }, 1000);
+          
+          showNotification('Rewards updated!', 'success');
+        }, 1500);
       });
+
+      // Auto-refresh every 30 seconds
+      setInterval(() => {
+        if (Math.random() > 0.7) { // 30% chance of new payout
+          addNewPayout();
+          updateStats();
+          showNotification('New tournament payout detected!', 'info');
+        }
+      }, 30000);
+
+      // Add new payout function
+      function addNewPayout() {
+        const payoutsGrid = document.getElementById('payouts-grid');
+        const tournaments = [
+          'Crypto Masters', 'NFT Arena', 'DeFi Duel', 'Web3 Warriors', 
+          'Blockchain Battle', 'Token Tournament', 'Digital Duel'
+        ];
+        const players = [
+          'CryptoLegend', 'BlockMaster', 'ChainHero', 'TokenKing', 
+          'NFTChampion', 'DeFiPro', 'Web3Ace', 'MetaGamer'
+        ];
+        const positions = ['1st Place', '2nd Place', '3rd Place'];
+        const colors = ['yellow-400', 'gray-400', 'orange-400'];
+        
+        const tournament = tournaments[Math.floor(Math.random() * tournaments.length)];
+        const player = players[Math.floor(Math.random() * players.length)];
+        const positionIndex = Math.floor(Math.random() * positions.length);
+        const position = positions[positionIndex];
+        const color = colors[positionIndex];
+        const prize = (Math.random() * 5 + 0.5).toFixed(1);
+        const address = '0x' + Math.random().toString(16).substr(2, 6) + '...' + Math.random().toString(16).substr(2, 4);
+        
+        const newPayout = document.createElement('div');
+        newPayout.className = 'p-4 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors animate-pulse';
+        newPayout.innerHTML = `
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-sm text-slate-400">${tournament} #${Math.floor(Math.random() * 100) + 50}</div>
+            <div class="text-xs text-${color} bg-${color}/10 px-2 py-1 rounded">${position}</div>
+          </div>
+          <div class="font-semibold text-green-400 mb-1">${prize} ETH Prize</div>
+          <div class="text-sm text-slate-300 mb-2">Winner: ${player}</div>
+          <div class="text-xs text-slate-400">to ${address}</div>
+          <div class="text-xs text-slate-500 mt-2">Just now</div>
+        `;
+        
+        // Add to beginning of grid
+        payoutsGrid.insertBefore(newPayout, payoutsGrid.firstChild);
+        
+        // Remove animation after 3 seconds
+        setTimeout(() => {
+          newPayout.classList.remove('animate-pulse');
+        }, 3000);
+        
+        // Keep only latest 12 payouts
+        const payouts = payoutsGrid.children;
+        if (payouts.length > 12) {
+          payoutsGrid.removeChild(payouts[payouts.length - 1]);
+        }
+      }
+
+      // Update stats function
+      function updateStats() {
+        const stats = document.querySelectorAll('.text-2xl.font-bold');
+        
+        // Update tournaments completed
+        const currentTournaments = parseInt(stats[0].textContent);
+        stats[0].textContent = currentTournaments + 1;
+        
+        // Update ETH distributed
+        const currentETH = parseFloat(stats[1].textContent);
+        const newAmount = (currentETH + Math.random() * 3 + 1).toFixed(1);
+        stats[1].textContent = newAmount;
+        
+        // Randomly update active tournaments
+        if (Math.random() > 0.5) {
+          const currentActive = parseInt(stats[2].textContent);
+          stats[2].textContent = Math.max(1, currentActive + (Math.random() > 0.5 ? 1 : -1));
+        }
+      }
+
+      // Notification system
+      function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 px-4 py-2 rounded-lg text-white z-50 transition-all duration-300 ${
+          type === 'success' ? 'bg-green-600' : 
+          type === 'error' ? 'bg-red-600' : 'bg-blue-600'
+        }`;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+          notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+          notification.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            if (notification.parentNode) {
+              notification.remove();
+            }
+          }, 300);
+        }, 3000);
+      }
+
+      // Payout card click handlers
+      document.addEventListener('click', (e) => {
+        const payoutCard = e.target.closest('.p-4.bg-slate-900');
+        if (payoutCard && payoutCard.parentElement.id === 'payouts-grid') {
+          showPayoutDetails(payoutCard);
+        }
+      });
+
+      // Show payout details modal
+      function showPayoutDetails(card) {
+        const tournament = card.querySelector('.text-sm.text-slate-400').textContent;
+        const prize = card.querySelector('.font-semibold.text-green-400').textContent;
+        const winner = card.querySelector('.text-sm.text-slate-300').textContent.replace('Winner: ', '');
+        const address = card.querySelector('.text-xs.text-slate-400').textContent.replace('to ', '');
+        
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
+        modal.innerHTML = `
+          <div class="bg-slate-900 rounded-xl p-6 max-w-md w-full">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-xl font-bold text-indigo-300">Payout Details</h3>
+              <button class="close-modal text-slate-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="space-y-4">
+              <div class="p-4 bg-slate-800 rounded-lg">
+                <div class="text-sm text-slate-400 mb-1">Tournament</div>
+                <div class="font-semibold text-slate-200">${tournament}</div>
+              </div>
+              <div class="p-4 bg-slate-800 rounded-lg">
+                <div class="text-sm text-slate-400 mb-1">Winner</div>
+                <div class="font-semibold text-slate-200">${winner}</div>
+              </div>
+              <div class="p-4 bg-slate-800 rounded-lg">
+                <div class="text-sm text-slate-400 mb-1">Prize Amount</div>
+                <div class="font-semibold text-green-400">${prize}</div>
+              </div>
+              <div class="p-4 bg-slate-800 rounded-lg">
+                <div class="text-sm text-slate-400 mb-1">Recipient Address</div>
+                <div class="font-mono text-xs text-slate-300 break-all">${address}</div>
+              </div>
+              <div class="p-4 bg-slate-800 rounded-lg">
+                <div class="text-sm text-slate-400 mb-1">Transaction Hash</div>
+                <div class="font-mono text-xs text-slate-300 break-all">0x${Math.random().toString(16).substr(2, 64)}</div>
+              </div>
+              <div class="flex gap-2">
+                <button class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors">
+                  View on Explorer
+                </button>
+                <button class="flex-1 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-semibold transition-colors">
+                  Share Result
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        modal.querySelector('.close-modal').addEventListener('click', () => {
+          modal.remove();
+        });
+        
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.remove();
+          }
+        });
+      }
 
       // Mobile menu toggle
       document.getElementById('mobile-menu').addEventListener('click', () => {
         const nav = document.getElementById('mobile-nav');
         nav.classList.toggle('hidden');
       });
+
+      // Initialize with some activity
+      setTimeout(() => {
+        if (Math.random() > 0.5) {
+          addNewPayout();
+          updateStats();
+        }
+      }, 5000);
     </script>
   </body>
 </html>

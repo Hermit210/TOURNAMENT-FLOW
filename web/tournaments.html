@@ -38,16 +38,69 @@
 
     <main class="max-w-6xl mx-auto px-4 py-8">
       <div class="mb-8">
-        <h1 class="text-2xl md:text-3xl font-bold mb-2">Gaming Tournaments</h1>
-        <p class="text-slate-400">Join decentralized tournaments with automated registration, scheduling, and prize distribution powered by Kwala.</p>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4">
+          <div>
+            <h1 class="text-2xl md:text-3xl font-bold mb-2">Gaming Tournaments</h1>
+            <p class="text-slate-400">Join decentralized tournaments with automated registration, scheduling, and prize distribution powered by Kwala.</p>
+          </div>
+          <div class="flex items-center gap-4 mt-4 sm:mt-0">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span class="text-sm text-slate-400">Live on Kwala Testnet</span>
+            </div>
+            <div class="text-sm text-slate-400">
+              <span id="active-tournaments-count">8</span> Active Tournaments
+            </div>
+          </div>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-slate-900/40 border border-slate-800 rounded-lg">
+          <div class="text-center">
+            <div class="text-lg font-bold text-indigo-300" id="total-prize-pool">23.6 ETH</div>
+            <div class="text-xs text-slate-400">Total Prize Pool</div>
+          </div>
+          <div class="text-center">
+            <div class="text-lg font-bold text-green-400" id="active-players">156</div>
+            <div class="text-xs text-slate-400">Active Players</div>
+          </div>
+          <div class="text-center">
+            <div class="text-lg font-bold text-blue-400" id="tournaments-today">12</div>
+            <div class="text-xs text-slate-400">Tournaments Today</div>
+          </div>
+          <div class="text-center">
+            <div class="text-lg font-bold text-purple-400" id="avg-payout">2.1s</div>
+            <div class="text-xs text-slate-400">Avg Payout Time</div>
+          </div>
+        </div>
       </div>
+
+      <!-- Tournament Filters -->
+      <section class="mb-6">
+        <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <div class="flex flex-wrap gap-2">
+            <button class="filter-btn active px-3 py-1 text-sm rounded-lg bg-indigo-600 text-white" data-filter="all">All</button>
+            <button class="filter-btn px-3 py-1 text-sm rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700" data-filter="live">Live</button>
+            <button class="filter-btn px-3 py-1 text-sm rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700" data-filter="filling">Filling</button>
+            <button class="filter-btn px-3 py-1 text-sm rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700" data-filter="upcoming">Upcoming</button>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-slate-400">Sort by:</span>
+            <select id="sort-tournaments" class="px-3 py-1 text-sm bg-slate-800 border border-slate-700 rounded-lg text-slate-300">
+              <option value="prize">Prize Pool</option>
+              <option value="players">Player Count</option>
+              <option value="time">Start Time</option>
+            </select>
+          </div>
+        </div>
+      </section>
 
       <!-- Active Tournaments -->
       <section class="mb-8">
         <h2 class="text-xl font-bold mb-4">Active Tournaments</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div id="tournaments-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- Tournament Card 1 -->
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors">
+          <div class="tournament-card bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors" data-status="live" data-prize="5.2" data-players="24" data-time="2">
             <div class="flex items-center justify-between mb-4">
               <h3 class="font-semibold text-indigo-300">Crypto Clash Championship</h3>
               <div class="text-xs bg-green-600 text-white px-2 py-1 rounded">LIVE</div>
@@ -69,14 +122,26 @@
                 <span>Starts:</span>
                 <span class="text-slate-300">In 2 hours</span>
               </div>
+              <div class="flex justify-between">
+                <span>Game:</span>
+                <span class="text-slate-300">Battle Royale</span>
+              </div>
             </div>
-            <button class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors">
-              Join Tournament
-            </button>
+            <div class="flex gap-2">
+              <button class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors join-tournament" data-tournament-id="1">
+                Join Tournament
+              </button>
+              <button class="px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors view-bracket" data-tournament-id="1">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                  <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
           </div>
 
           <!-- Tournament Card 2 -->
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors">
+          <div class="tournament-card bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors" data-status="filling" data-prize="2.8" data-players="12" data-time="0">
             <div class="flex items-center justify-between mb-4">
               <h3 class="font-semibold text-indigo-300">NFT Warriors Battle</h3>
               <div class="text-xs bg-yellow-600 text-white px-2 py-1 rounded">FILLING</div>
@@ -98,14 +163,26 @@
                 <span>Starts:</span>
                 <span class="text-slate-300">When full</span>
               </div>
+              <div class="flex justify-between">
+                <span>Game:</span>
+                <span class="text-slate-300">Strategy</span>
+              </div>
             </div>
-            <button class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors">
-              Join Tournament
-            </button>
+            <div class="flex gap-2">
+              <button class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors join-tournament" data-tournament-id="2">
+                Join Tournament
+              </button>
+              <button class="px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors view-bracket" data-tournament-id="2">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                  <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
           </div>
 
           <!-- Tournament Card 3 -->
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors">
+          <div class="tournament-card bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors" data-status="upcoming" data-prize="10.0" data-players="0" data-time="24">
             <div class="flex items-center justify-between mb-4">
               <h3 class="font-semibold text-indigo-300">Weekly Legends Cup</h3>
               <div class="text-xs bg-blue-600 text-white px-2 py-1 rounded">UPCOMING</div>
@@ -127,10 +204,63 @@
                 <span>Starts:</span>
                 <span class="text-slate-300">Tomorrow 6PM</span>
               </div>
+              <div class="flex justify-between">
+                <span>Game:</span>
+                <span class="text-slate-300">MOBA</span>
+              </div>
             </div>
-            <button class="w-full py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-semibold transition-colors">
-              Register Early
-            </button>
+            <div class="flex gap-2">
+              <button class="flex-1 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-semibold transition-colors join-tournament" data-tournament-id="3">
+                Register Early
+              </button>
+              <button class="px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors view-bracket" data-tournament-id="3">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                  <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tournament Card 4 -->
+          <div class="tournament-card bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors" data-status="filling" data-prize="1.6" data-players="6" data-time="0">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-semibold text-indigo-300">Speed Run Challenge</h3>
+              <div class="text-xs bg-yellow-600 text-white px-2 py-1 rounded">FILLING</div>
+            </div>
+            <div class="space-y-2 text-sm text-slate-400 mb-4">
+              <div class="flex justify-between">
+                <span>Prize Pool:</span>
+                <span class="text-green-400 font-semibold">1.6 ETH</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Players:</span>
+                <span class="text-slate-300">6/8</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Entry Fee:</span>
+                <span class="text-slate-300">0.2 ETH</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Starts:</span>
+                <span class="text-slate-300">When full</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Game:</span>
+                <span class="text-slate-300">Racing</span>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <button class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors join-tournament" data-tournament-id="4">
+                Join Tournament
+              </button>
+              <button class="px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors view-bracket" data-tournament-id="4">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                  <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -159,8 +289,22 @@
               </div>
               <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-300">Entry Fee (ETH)</label>
-                <input id="entry-fee" type="number" step="0.01" class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:border-indigo-500 focus:outline-none transition-colors" placeholder="0.1" />
+                <input id="entry-fee" type="number" step="0.01" min="0.01" class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:border-indigo-500 focus:outline-none transition-colors" placeholder="0.1" />
               </div>
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-slate-300">Game Type</label>
+              <select id="game-type" class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:border-indigo-500 focus:outline-none transition-colors">
+                <option value="Battle Royale">Battle Royale</option>
+                <option value="Strategy">Strategy</option>
+                <option value="MOBA">MOBA</option>
+                <option value="Racing">Racing</option>
+                <option value="Fighting">Fighting</option>
+                <option value="Puzzle">Puzzle</option>
+                <option value="Card Game">Card Game</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
 
             <button id="create-tournament" class="w-full py-3 rounded-lg bg-purple-600 hover:bg-purple-500 font-semibold transition-colors">
@@ -307,29 +451,184 @@
         }
       });
 
-      document.getElementById('create-tournament').addEventListener('click', async () => {
+      document.getElementById('create-tournament').addEventListener('click', async (e) => {
+        const btn = e.target;
+        const originalText = btn.textContent;
+        
         try {
           const provider = await connect();
           const signer = provider.getSigner();
           
           const name = document.getElementById('tournament-name').value.trim();
           const maxPlayers = parseInt(document.getElementById('max-players').value);
-          const entryFee = ethers.utils.parseEther(document.getElementById('entry-fee').value || '0');
+          const entryFee = document.getElementById('entry-fee').value || '0';
+          const gameType = document.getElementById('game-type').value;
           
+          // Validation
           if (!name) throw new Error('Tournament name is required');
+          if (name.length < 3) throw new Error('Tournament name must be at least 3 characters');
+          if (parseFloat(entryFee) <= 0) throw new Error('Entry fee must be greater than 0');
           
-          log(`Creating tournament: ${name} (${maxPlayers} players, ${ethers.utils.formatEther(entryFee)} KWALA entry)`);
+          btn.textContent = 'Creating Tournament...';
+          btn.disabled = true;
           
-          // In a real implementation, this would interact with the deployed tournament contract
-          // For demo purposes, we'll simulate the transaction
+          log(`Creating tournament: ${name}`);
+          log(`Players: ${maxPlayers}, Entry Fee: ${entryFee} KWALA, Game: ${gameType}`);
+          
+          // Simulate transaction delay
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          
           const mockTxHash = '0x' + Math.random().toString(16).substr(2, 64);
-          log(`Tournament created! Tx: ${mockTxHash}`);
-          log('Kwala workflow will handle registration monitoring and bracket generation');
+          const tournamentId = Math.floor(Math.random() * 1000) + 100;
+          
+          log(`Tournament created successfully!`);
+          log(`Tournament ID: ${tournamentId}`);
+          log(`Transaction: ${mockTxHash}`);
+          log('Kwala workflow is now monitoring for player registrations');
+          
+          // Add new tournament to the grid
+          addNewTournamentToGrid({
+            id: tournamentId,
+            name: name,
+            maxPlayers: maxPlayers,
+            entryFee: entryFee,
+            gameType: gameType,
+            status: 'filling'
+          });
+          
+          // Clear form
+          document.getElementById('tournament-name').value = '';
+          document.getElementById('entry-fee').value = '';
+          
+          // Show success message
+          showNotification(`Tournament "${name}" created successfully!`, 'success');
+          
+          // Update stats
+          updateTournamentStats();
           
         } catch (e) {
           log(`Error: ${e.message || e}`);
+          showNotification(`Error: ${e.message}`, 'error');
+        } finally {
+          btn.textContent = originalText;
+          btn.disabled = false;
         }
       });
+
+      // Add new tournament to grid
+      function addNewTournamentToGrid(tournament) {
+        const tournamentsGrid = document.getElementById('tournaments-grid');
+        
+        const newCard = document.createElement('div');
+        newCard.className = 'tournament-card bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors animate-pulse';
+        newCard.dataset.status = tournament.status;
+        newCard.dataset.prize = tournament.entryFee;
+        newCard.dataset.players = '0';
+        newCard.dataset.time = '0';
+        
+        newCard.innerHTML = `
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-indigo-300">${tournament.name}</h3>
+            <div class="text-xs bg-yellow-600 text-white px-2 py-1 rounded">FILLING</div>
+          </div>
+          <div class="space-y-2 text-sm text-slate-400 mb-4">
+            <div class="flex justify-between">
+              <span>Prize Pool:</span>
+              <span class="text-green-400 font-semibold">${tournament.entryFee} ETH</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Players:</span>
+              <span class="text-slate-300">0/${tournament.maxPlayers}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Entry Fee:</span>
+              <span class="text-slate-300">${(parseFloat(tournament.entryFee) / tournament.maxPlayers).toFixed(3)} ETH</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Starts:</span>
+              <span class="text-slate-300">When full</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Game:</span>
+              <span class="text-slate-300">${tournament.gameType}</span>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors join-tournament" data-tournament-id="${tournament.id}">
+              Join Tournament
+            </button>
+            <button class="px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors view-bracket" data-tournament-id="${tournament.id}">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+          </div>
+        `;
+        
+        // Add event listeners to new buttons
+        const joinBtn = newCard.querySelector('.join-tournament');
+        const viewBtn = newCard.querySelector('.view-bracket');
+        
+        joinBtn.addEventListener('click', handleJoinTournament);
+        viewBtn.addEventListener('click', handleViewBracket);
+        
+        // Add to beginning of grid
+        tournamentsGrid.insertBefore(newCard, tournamentsGrid.firstChild);
+        
+        // Remove animation after 3 seconds
+        setTimeout(() => {
+          newCard.classList.remove('animate-pulse');
+        }, 3000);
+      }
+
+      // Update tournament stats
+      function updateTournamentStats() {
+        const currentCount = parseInt(document.getElementById('active-tournaments-count').textContent);
+        document.getElementById('active-tournaments-count').textContent = currentCount + 1;
+        
+        const currentPrize = parseFloat(document.getElementById('total-prize-pool').textContent);
+        const newPrize = (currentPrize + Math.random() * 2 + 0.5).toFixed(1);
+        document.getElementById('total-prize-pool').textContent = newPrize + ' ETH';
+        
+        const currentToday = parseInt(document.getElementById('tournaments-today').textContent);
+        document.getElementById('tournaments-today').textContent = currentToday + 1;
+      }
+
+      // Handle join tournament (for dynamically added buttons)
+      function handleJoinTournament(e) {
+        const tournamentId = e.target.dataset.tournamentId;
+        const originalText = e.target.textContent;
+        
+        connect().then(() => {
+          e.target.textContent = 'Joining...';
+          e.target.disabled = true;
+          
+          log(`Joining tournament #${tournamentId}...`);
+          
+          setTimeout(() => {
+            const mockTxHash = '0x' + Math.random().toString(16).substr(2, 64);
+            log(`Registration successful! Tx: ${mockTxHash}`);
+            
+            e.target.textContent = 'Registered ✓';
+            e.target.classList.remove('bg-indigo-600', 'hover:bg-indigo-500');
+            e.target.classList.add('bg-green-600');
+            
+            showNotification('Successfully joined tournament!', 'success');
+          }, 2000);
+        }).catch(error => {
+          log(`Error: ${error.message || error}`);
+          e.target.textContent = originalText;
+          e.target.disabled = false;
+          showNotification('Failed to join tournament', 'error');
+        });
+      }
+
+      // Handle view bracket (for dynamically added buttons)
+      function handleViewBracket(e) {
+        const tournamentId = e.target.closest('button').dataset.tournamentId;
+        showBracket(tournamentId);
+      }
 
       // Mobile menu toggle
       document.getElementById('mobile-menu').addEventListener('click', () => {
@@ -353,22 +652,210 @@
         }
       });
 
-      // Simulate tournament join buttons
-      document.querySelectorAll('button').forEach(btn => {
-        if (btn.textContent.includes('Join Tournament') || btn.textContent.includes('Register Early')) {
-          btn.addEventListener('click', async () => {
-            try {
-              await connect();
-              log('Joining tournament...');
-              const mockTxHash = '0x' + Math.random().toString(16).substr(2, 64);
-              log(`Registration successful! Tx: ${mockTxHash}`);
-              log('Kwala will notify you when the tournament starts');
-            } catch (e) {
-              log(`Error: ${e.message || e}`);
+      // Tournament filtering and sorting
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const sortSelect = document.getElementById('sort-tournaments');
+      const tournamentsGrid = document.getElementById('tournaments-grid');
+      
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active filter button
+          filterButtons.forEach(b => {
+            b.classList.remove('active', 'bg-indigo-600', 'text-white');
+            b.classList.add('bg-slate-800', 'text-slate-300');
+          });
+          btn.classList.add('active', 'bg-indigo-600', 'text-white');
+          btn.classList.remove('bg-slate-800', 'text-slate-300');
+          
+          // Filter tournaments
+          const filter = btn.dataset.filter;
+          const cards = document.querySelectorAll('.tournament-card');
+          
+          cards.forEach(card => {
+            if (filter === 'all' || card.dataset.status === filter) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
             }
           });
-        }
+        });
       });
+      
+      sortSelect.addEventListener('change', () => {
+        const sortBy = sortSelect.value;
+        const cards = Array.from(document.querySelectorAll('.tournament-card'));
+        
+        cards.sort((a, b) => {
+          let aVal, bVal;
+          
+          switch(sortBy) {
+            case 'prize':
+              aVal = parseFloat(a.dataset.prize);
+              bVal = parseFloat(b.dataset.prize);
+              return bVal - aVal; // Descending
+            case 'players':
+              aVal = parseInt(a.dataset.players);
+              bVal = parseInt(b.dataset.players);
+              return bVal - aVal; // Descending
+            case 'time':
+              aVal = parseInt(a.dataset.time);
+              bVal = parseInt(b.dataset.time);
+              return aVal - bVal; // Ascending
+            default:
+              return 0;
+          }
+        });
+        
+        // Re-append sorted cards
+        cards.forEach(card => tournamentsGrid.appendChild(card));
+      });
+
+      // Tournament join functionality
+      document.querySelectorAll('.join-tournament').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const tournamentId = e.target.dataset.tournamentId;
+          const originalText = e.target.textContent;
+          
+          try {
+            await connect();
+            e.target.textContent = 'Joining...';
+            e.target.disabled = true;
+            
+            log(`Joining tournament #${tournamentId}...`);
+            
+            // Simulate registration transaction
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            const mockTxHash = '0x' + Math.random().toString(16).substr(2, 64);
+            log(`Registration successful! Tx: ${mockTxHash}`);
+            log('Kwala workflow will handle bracket updates automatically');
+            
+            // Update UI
+            e.target.textContent = 'Registered ✓';
+            e.target.classList.remove('bg-indigo-600', 'hover:bg-indigo-500');
+            e.target.classList.add('bg-green-600');
+            
+            // Show success notification
+            showNotification('Successfully joined tournament!', 'success');
+            
+          } catch (error) {
+            log(`Error: ${error.message || error}`);
+            e.target.textContent = originalText;
+            e.target.disabled = false;
+            showNotification('Failed to join tournament', 'error');
+          }
+        });
+      });
+
+      // View bracket functionality
+      document.querySelectorAll('.view-bracket').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const tournamentId = e.target.closest('button').dataset.tournamentId;
+          showBracket(tournamentId);
+        });
+      });
+
+      // Notification system
+      function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 px-4 py-2 rounded-lg text-white z-50 ${
+          type === 'success' ? 'bg-green-600' : 
+          type === 'error' ? 'bg-red-600' : 'bg-blue-600'
+        }`;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.remove();
+        }, 3000);
+      }
+
+      // Show bracket modal
+      function showBracket(tournamentId) {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
+        modal.innerHTML = `
+          <div class="bg-slate-900 rounded-xl p-6 max-w-4xl w-full max-h-[80vh] overflow-auto">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-xl font-bold text-indigo-300">Tournament #${tournamentId} Bracket</h3>
+              <button class="close-modal text-slate-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="bracket-container">
+              ${generateBracketHTML(tournamentId)}
+            </div>
+          </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        modal.querySelector('.close-modal').addEventListener('click', () => {
+          modal.remove();
+        });
+        
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.remove();
+          }
+        });
+      }
+
+      // Generate bracket HTML
+      function generateBracketHTML(tournamentId) {
+        const brackets = {
+          '1': {
+            rounds: [
+              { name: 'Round 1', matches: [
+                { player1: 'CryptoGamer_Pro', player2: 'BlockchainBeast', winner: 'CryptoGamer_Pro' },
+                { player1: 'MetaWarrior', player2: 'ChainChampion', winner: 'MetaWarrior' },
+                { player1: 'DigitalDragon', player2: 'FastFingers', winner: 'DigitalDragon' },
+                { player1: 'Web3Wizard', player2: 'DeFiDominator', winner: 'Web3Wizard' }
+              ]},
+              { name: 'Semi-Finals', matches: [
+                { player1: 'CryptoGamer_Pro', player2: 'MetaWarrior', winner: 'CryptoGamer_Pro' },
+                { player1: 'DigitalDragon', player2: 'Web3Wizard', winner: 'DigitalDragon' }
+              ]},
+              { name: 'Finals', matches: [
+                { player1: 'CryptoGamer_Pro', player2: 'DigitalDragon', winner: 'CryptoGamer_Pro' }
+              ]}
+            ]
+          },
+          '2': {
+            rounds: [
+              { name: 'Round 1', matches: [
+                { player1: 'NFTNinja', player2: 'TokenTitan', winner: null },
+                { player1: 'CryptoKnight', player2: 'BlockBuster', winner: null }
+              ]}
+            ]
+          }
+        };
+        
+        const bracket = brackets[tournamentId] || { rounds: [{ name: 'Waiting for players...', matches: [] }] };
+        
+        return bracket.rounds.map(round => `
+          <div class="mb-6">
+            <h4 class="text-lg font-semibold text-slate-200 mb-3">${round.name}</h4>
+            <div class="space-y-2">
+              ${round.matches.map(match => `
+                <div class="flex items-center justify-between p-3 bg-slate-800 rounded-lg">
+                  <div class="flex-1">
+                    <div class="text-sm ${match.winner === match.player1 ? 'text-green-400 font-semibold' : 'text-slate-300'}">${match.player1}</div>
+                    <div class="text-xs text-slate-500">vs</div>
+                    <div class="text-sm ${match.winner === match.player2 ? 'text-green-400 font-semibold' : 'text-slate-300'}">${match.player2}</div>
+                  </div>
+                  <div class="text-xs ${match.winner ? 'text-green-400' : 'text-yellow-400'}">
+                    ${match.winner ? `Winner: ${match.winner}` : 'In Progress'}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `).join('');
+      }
     </script>
   </body>
 </html>

@@ -3,37 +3,208 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>QuestFlow — Docs</title>
+    <title>TournamentFlow — Documentation</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-slate-950 text-slate-100 min-h-screen">
-    <header class="border-b border-slate-800/60 bg-slate-900/60 backdrop-blur">
-      <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+    <header class="border-b border-slate-800/60 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <img src="./logo.svg" class="h-8 w-8" alt="QuestFlow logo"/>
-          <a href="./index.html" class="font-semibold text-indigo-300">QuestFlow</a>
+          <img src="./logo.svg" class="h-8 w-8" alt="TournamentFlow logo"/>
+          <a href="./index.html" class="font-semibold text-indigo-300">TournamentFlow</a>
         </div>
-        <nav class="flex items-center gap-6 text-sm">
-          <a class="text-slate-300 hover:text-white" href="./trigger.html">Trigger</a>
-          <a class="text-slate-300 hover:text-white" href="./rewards.html">Rewards</a>
-          <a class="text-slate-300 hover:text-white" href="./docs.html">Docs</a>
+        <nav class="hidden sm:flex items-center gap-6 text-sm">
+          <a class="text-slate-300 hover:text-white transition-colors" href="./tournaments.html">Tournaments</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./rewards.html">Rewards</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./docs.html">Docs</a>
+        </nav>
+        <button id="mobile-menu" class="sm:hidden p-2 text-slate-300 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+      <div id="mobile-nav" class="hidden sm:hidden border-t border-slate-800/60 bg-slate-900/80 backdrop-blur">
+        <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 text-sm">
+          <a class="text-slate-300 hover:text-white transition-colors" href="./tournaments.html">Tournaments</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./rewards.html">Rewards</a>
+          <a class="text-slate-300 hover:text-white transition-colors" href="./docs.html">Docs</a>
         </nav>
       </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-6 py-14 space-y-10">
-      <h1 class="text-4xl font-extrabold tracking-tight">Documentation</h1>
-      <div class="text-lg text-slate-300 leading-relaxed space-y-4">
-        <p>QuestFlow automates rewards using a backendless Kwala workflow that listens to on-chain events and executes minting + notifications.</p>
+    <main class="max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-14 space-y-12">
+      <div class="text-center space-y-4">
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Documentation</h1>
+        <p class="text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto">
+          TournamentFlow is a decentralized gaming tournament platform that automates player registration, match scheduling, and prize distribution using Kwala's event-driven serverless workflows.
+        </p>
       </div>
-      <ol class="list-decimal list-inside space-y-4 text-slate-200 text-lg">
-        <li>Deploy <code class="text-indigo-300">QuestController</code> and <code class="text-indigo-300">EpicNFT</code> to Base Sepolia.</li>
-        <li>Grant minter to the Kwala signer on <code class="text-indigo-300">EpicNFT</code>.</li>
-        <li>Fill addresses in <code class="text-indigo-300">kwala/kwala-nft-reward.yaml</code> and secrets.</li>
-        <li>Start the Kwala workflow.</li>
-        <li>Use <a class="text-indigo-300 underline" href="./trigger.html">Trigger</a> page to emit the event.</li>
-      </ol>
-      <p class="text-slate-400 text-base">For production, connect Rewards to your webhook sink or an indexer (e.g., The Graph) for live activity.</p>
+
+      <!-- Quick Start -->
+      <section class="bg-slate-900/40 border border-slate-800 rounded-xl p-6 md:p-8">
+        <h2 class="text-2xl font-bold mb-6 text-indigo-300">Quick Start Guide</h2>
+        <div class="space-y-6">
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">1</div>
+            <div>
+              <h3 class="font-semibold text-slate-200 mb-2">Deploy Tournament Contracts</h3>
+              <p class="text-slate-400 mb-2">Deploy <code class="text-indigo-300 bg-slate-800 px-2 py-1 rounded">TournamentManager</code> and <code class="text-indigo-300 bg-slate-800 px-2 py-1 rounded">AchievementNFT</code> contracts to Kwala Testnet.</p>
+              <div class="bg-slate-950 border border-slate-800 rounded p-3 text-sm font-mono text-slate-300">
+                npx hardhat deploy --network kwala-testnet
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">2</div>
+            <div>
+              <h3 class="font-semibold text-slate-200 mb-2">Configure Kwala Workflows</h3>
+              <p class="text-slate-400 mb-2">Set up automated tournament management with event-driven workflows.</p>
+              <div class="bg-slate-950 border border-slate-800 rounded p-3 text-sm font-mono text-slate-300">
+                # kwala/tournament-automation.yaml<br/>
+                name: tournament-automation<br/>
+                triggers:<br/>
+                &nbsp;&nbsp;- event: TournamentCreated<br/>
+                &nbsp;&nbsp;- event: PlayerRegistered<br/>
+                &nbsp;&nbsp;- event: TournamentCompleted
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">3</div>
+            <div>
+              <h3 class="font-semibold text-slate-200 mb-2">Deploy Workflows</h3>
+              <p class="text-slate-400 mb-2">Start Kwala workflows to automate tournament lifecycle management.</p>
+              <div class="bg-slate-950 border border-slate-800 rounded p-3 text-sm font-mono text-slate-300">
+                kwala deploy tournament-automation.yaml
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">4</div>
+            <div>
+              <h3 class="font-semibold text-slate-200 mb-2">Create Your First Tournament</h3>
+              <p class="text-slate-400 mb-2">Use the <a class="text-indigo-300 underline" href="./tournaments.html">Tournaments page</a> to create and manage gaming tournaments.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Architecture -->
+      <section>
+        <h2 class="text-2xl font-bold mb-6">Architecture Overview</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg">
+              <h3 class="font-semibold text-indigo-300 mb-2">Smart Contracts</h3>
+              <ul class="text-sm text-slate-400 space-y-1">
+                <li>• TournamentManager: Handles tournament lifecycle</li>
+                <li>• AchievementNFT: Mints tournament badges</li>
+                <li>• Kwala Testnet: Native blockchain integration</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg">
+              <h3 class="font-semibold text-indigo-300 mb-2">Kwala Workflows</h3>
+              <ul class="text-sm text-slate-400 space-y-1">
+                <li>• Tournament creation automation</li>
+                <li>• Bracket generation and scheduling</li>
+                <li>• Automated prize distribution</li>
+              </ul>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg">
+              <h3 class="font-semibold text-indigo-300 mb-2">Tournament Features</h3>
+              <ul class="text-sm text-slate-400 space-y-1">
+                <li>• Cross-chain tournament support</li>
+                <li>• Real-time bracket updates</li>
+                <li>• Instant prize payouts</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-lg">
+              <h3 class="font-semibold text-indigo-300 mb-2">Integration Ready</h3>
+              <ul class="text-sm text-slate-400 space-y-1">
+                <li>• Game engine integration APIs</li>
+                <li>• Webhook notifications</li>
+                <li>• Multi-game tournament support</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- API Reference -->
+      <section>
+        <h2 class="text-2xl font-bold mb-6">Smart Contract API</h2>
+        <div class="space-y-4">
+          <div class="bg-slate-900/60 border border-slate-800 rounded-lg p-4">
+            <h3 class="font-semibold text-indigo-300 mb-2">TournamentManager.sol</h3>
+            <div class="space-y-3 text-sm">
+              <div class="bg-slate-950 border border-slate-800 rounded p-3 font-mono">
+                <span class="text-blue-400">function</span> <span class="text-green-400">createTournament</span>(<span class="text-purple-400">string</span> name, <span class="text-purple-400">uint256</span> maxPlayers, <span class="text-purple-400">uint256</span> entryFee)
+              </div>
+              <p class="text-slate-400">Creates a new tournament with specified parameters.</p>
+              
+              <div class="bg-slate-950 border border-slate-800 rounded p-3 font-mono">
+                <span class="text-blue-400">function</span> <span class="text-green-400">registerForTournament</span>(<span class="text-purple-400">uint256</span> tournamentId, <span class="text-purple-400">string</span> username) <span class="text-blue-400">payable</span>
+              </div>
+              <p class="text-slate-400">Registers player for tournament with entry fee payment.</p>
+            </div>
+          </div>
+          
+          <div class="bg-slate-900/60 border border-slate-800 rounded-lg p-4">
+            <h3 class="font-semibold text-indigo-300 mb-2">AchievementNFT.sol</h3>
+            <div class="space-y-3 text-sm">
+              <div class="bg-slate-950 border border-slate-800 rounded p-3 font-mono">
+                <span class="text-blue-400">function</span> <span class="text-green-400">mintAchievement</span>(<span class="text-purple-400">address</span> to, <span class="text-purple-400">string</span> achievementType, <span class="text-purple-400">uint256</span> tournamentId)
+              </div>
+              <p class="text-slate-400">Mints achievement NFTs for tournament winners and participants.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hackathon Info -->
+      <section class="bg-gradient-to-r from-indigo-900/20 to-purple-900/20 border border-indigo-800/30 rounded-xl p-6 md:p-8">
+        <h2 class="text-2xl font-bold mb-4 text-indigo-300">Built for BuildWithKwala Hackathon</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-semibold text-slate-200 mb-2">Project Goals</h3>
+            <ul class="text-sm text-slate-400 space-y-1">
+              <li>• Demonstrate serverless Web3 workflows</li>
+              <li>• Showcase event-driven NFT minting</li>
+              <li>• Build production-ready gaming infrastructure</li>
+              <li>• Enable gasless reward distribution</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-slate-200 mb-2">Technical Highlights</h3>
+            <ul class="text-sm text-slate-400 space-y-1">
+              <li>• Zero backend infrastructure required</li>
+              <li>• Real-time event processing</li>
+              <li>• Scalable across multiple games</li>
+              <li>• Future cross-chain compatibility</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="text-center">
+        <p class="text-slate-400">
+          Ready to start? Create your first <a class="text-indigo-300 underline" href="./tournaments.html">tournament</a> or check out <a class="text-indigo-300 underline" href="./rewards.html">live payouts</a>.
+        </p>
+      </div>
     </main>
+
+    <script>
+      // Mobile menu toggle
+      document.getElementById('mobile-menu').addEventListener('click', () => {
+        const nav = document.getElementById('mobile-nav');
+        nav.classList.toggle('hidden');
+      });
+    </script>
   </body>
 </html>
