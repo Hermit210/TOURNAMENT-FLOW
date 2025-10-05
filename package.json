@@ -1,0 +1,33 @@
+{
+  "name": "tournamentflow",
+  "version": "1.0.0",
+  "description": "Decentralized Gaming Tournament Platform powered by Kwala workflows",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "node server.js"
+  },
+  "keywords": [
+    "tournament",
+    "gaming",
+    "blockchain",
+    "kwala",
+    "web3",
+    "decentralized",
+    "nft",
+    "ethereum",
+    "smart-contracts"
+  ],
+  "author": "TournamentFlow Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hermit210/quest.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
