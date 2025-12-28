@@ -8,19 +8,19 @@ TournamentFlow is a comprehensive tournament management platform that automates 
 
 ## Features
 
-### 🏆 Tournament Management
+###  Tournament Management
 - **Automated Registration**: Players register and pay entry fees through smart contracts
 - **Dynamic Brackets**: Kwala workflows generate and update tournament brackets automatically
 - **Match Scheduling**: Intelligent scheduling based on tournament progression
 - **Prize Distribution**: Instant payouts to winners upon tournament completion
 
-### ⚡ Kwala-Powered Automation
+###  Kwala-Powered Automation
 - **Event-driven**: Responds to on-chain tournament events in real-time
 - **Serverless**: No backend infrastructure required
 - **Cross-chain**: Support for multiple blockchain networks
 - **Scalable**: Handle multiple concurrent tournaments
 
-### 🎮 Gaming Integration
+###  Gaming Integration
 - **Multi-game Support**: Works with any game that can report match results
 - **Achievement NFTs**: Automatic minting of tournament badges and achievements
 - **Real-time Updates**: Live tournament tracking and notifications
@@ -137,12 +137,6 @@ TournamentFlow showcases Kwala's capabilities for:
 - **Frontend**: HTML/CSS/JavaScript with Web3 integration
 - **Styling**: Tailwind CSS
 
-## Live Demo
-
-- **Website**: [TournamentFlow Platform](./web/index.html)
-- **Create Tournament**: [Tournament Creation](./web/tournaments.html)
-- **View Rewards**: [Prize Tracking](./web/rewards.html)
-- **Documentation**: [Full Docs](./web/docs.html)
 
 ## Future Enhancements
 
